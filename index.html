@@ -4,11 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>عرضك - أبوكبير</title>
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#FF6B1A">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="عرضك">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -29,8 +24,11 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-h
 @keyframes load{to{width:100%;}}
 
 /* FLYING ADS */
-.fly-ad{position:fixed;z-index:150;pointer-events:none;display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--orange),#c94e00);color:#fff;padding:8px 16px 8px 12px;border-radius:30px;font-size:12px;font-weight:700;box-shadow:0 4px 20px rgba(255,107,26,.4);white-space:nowrap;}
-.fly-ad .fly-icon{font-size:16px;}
+.fly-ad{position:fixed;z-index:999;pointer-events:none;display:flex;align-items:center;white-space:nowrap;}
+.fly-plane{font-size:28px;display:inline-block;animation:planeBob .8s ease-in-out infinite;}
+@keyframes planeBob{0%,100%{transform:translateY(0) rotate(-8deg);}50%{transform:translateY(-6px) rotate(-8deg);}}
+.fly-banner{background:linear-gradient(135deg,var(--orange),#c94e00);color:#fff;padding:6px 14px;font-size:12px;font-weight:700;border-radius:20px;box-shadow:0 3px 15px rgba(255,107,26,.5);margin-right:6px;animation:bannerPop .4s ease;}
+@keyframes bannerPop{from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);}}
 
 /* HEADER */
 header{background:var(--cardbg);border-bottom:1px solid var(--borderc);padding:8px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;transition:background .3s;}
@@ -146,14 +144,14 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
 .delivery{background:var(--og);color:var(--orange);}
 
 /* CAFES SECTION */
-.cafe-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
-.cafe-card{background:var(--cardbg);border:1px solid var(--borderc);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:0;}
-.cafe-card:hover{border-color:var(--orange);transform:translateY(-1px);}
-.cafe-img{width:80px;height:70px;flex-shrink:0;background:linear-gradient(135deg,#222,#2a2a2a);display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;}
+.cafe-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.cafe-card{background:var(--cardbg);border:1px solid var(--borderc);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .2s;}
+.cafe-card:hover{border-color:var(--orange);transform:translateY(-2px);}
+.cafe-img{height:90px;background:linear-gradient(135deg,#222,#2a2a2a);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden;}
 .cafe-img img{width:100%;height:100%;object-fit:cover;}
-.cafe-body{padding:10px 12px;flex:1;}
-.cafe-name{font-size:13px;font-weight:800;margin-bottom:3px;}
-.cafe-type{font-size:11px;color:var(--mutedc);}
+.cafe-body{padding:10px;}
+.cafe-name{font-size:12px;font-weight:800;margin-bottom:2px;}
+.cafe-type{font-size:10px;color:var(--mutedc);}
 
 /* PHOTO MODAL - Instagram style swipe */
 .photo-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:400;flex-direction:column;}
@@ -251,9 +249,10 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
   <div class="menu-item" onclick="switchTab('offers');closeMenu()"><span class="mi">🔥</span> العروض</div>
   <div class="menu-item" onclick="switchTab('resto');closeMenu()"><span class="mi">🍽️</span> المطاعم</div>
   <div class="menu-item" onclick="switchTab('cafes');closeMenu()"><span class="mi">☕</span> الكافيهات</div>
-  <div class="menu-item" onclick="switchTab('services');closeMenu()"><span class="mi">🚨</span> الخدمات</div>
-  <div class="menu-item" style="opacity:.6;"><span class="mi">🎡</span> روليت الأماكن <span class="menu-soon">قريباً</span></div>
-  <div class="menu-item" style="opacity:.6;"><span class="mi">⏳</span> ساعة عرضك <span class="menu-soon">قريباً</span></div>
+  <div class="menu-item" onclick="switchTab('services');closeMenu()"><span class="mi">🛵</span> دليفري</div>
+  <div class="menu-item" onclick="switchTab('doctors');closeMenu()"><span class="mi">🏥</span> أطباء وصيدليات</div>
+  <div class="menu-item" onclick="switchTab('wheel');closeMenu()"><span class="mi">🎡</span> روليت الأماكن</div>
+  <div class="menu-item" onclick="switchTab('hg');closeMenu()"><span class="mi">⏳</span> ساعة عرضك</div>
   <div class="menu-item" onclick="switchTab('soon');closeMenu()"><span class="mi">🎮</span> تسالي <span class="menu-soon">قريباً</span></div>
   <div class="menu-item" onclick="switchTab('contact');closeMenu()"><span class="mi">📞</span> تواصل معنا</div>
   <div class="menu-social">
@@ -323,20 +322,21 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
   <div class="cafe-grid" id="cafesList"><div class="skeleton" style="height:140px"></div><div class="skeleton" style="height:140px"></div></div>
 </div>
 
-<!-- SERVICES -->
+<!-- DELIVERY -->
 <div class="sec" id="sec-services">
-  <div class="stitle">🚨 خدمات الطوارئ</div>
-  <div class="service-grid">
-    <div class="service-card" onclick="window.location='tel:123'"><div class="sicon2">🚑</div><div class="sname">إسعاف</div><div class="snum">123</div></div>
-    <div class="service-card" onclick="window.location='tel:180'"><div class="sicon2">🚒</div><div class="sname">المطافئ</div><div class="snum">180</div></div>
-    <div class="service-card" onclick="window.location='tel:122'"><div class="sicon2">👮</div><div class="sname">الشرطة</div><div class="snum">122</div></div>
-    <div class="service-card" onclick="window.location='tel:08'"><div class="sicon2">⚡</div><div class="sname">الكهرباء</div><div class="snum">08</div></div>
-  </div>
-  <div class="stitle">🏥 أطباء وعيادات</div>
-  <div id="doctorsList"><div class="empty-state"><p style="font-size:12px">قريباً</p></div></div>
+  <div class="stitle">🛵 خدمات التوصيل</div>
+  <div id="deliveryList"><div class="empty-state"><div class="eicon">🛵</div><p>مفيش دليفري دلوقتي</p></div></div>
   <div class="stitle">🚌 مواصلات</div>
   <div class="resto"><div class="ricon">🚌</div><div class="rinfo"><div class="rname">أبوكبير ← الزقازيق</div><div class="rtype">كل 30 دقيقة · 5 جنيه</div></div></div>
   <div class="resto"><div class="ricon">🚌</div><div class="rinfo"><div class="rname">أبوكبير ← القاهرة</div><div class="rtype">كل ساعة · 25 جنيه</div></div></div>
+</div>
+
+<!-- DOCTORS -->
+<div class="sec" id="sec-doctors">
+  <div class="stitle">🏥 أطباء وعيادات</div>
+  <div id="doctorsList"><div class="empty-state"><div class="eicon">🏥</div><p>مفيش أطباء دلوقتي</p></div></div>
+  <div class="stitle">💊 صيدليات</div>
+  <div id="pharmacyList"><div class="empty-state"><div class="eicon">💊</div><p>مفيش صيدليات دلوقتي</p></div></div>
 </div>
 
 <!-- WHEEL -->
@@ -492,7 +492,10 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>كافيهات
   </div>
   <div class="bitem" id="nav-services" onclick="switchTab('services')">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>خدمات
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zm-.5 1.5l1.96 2.5H17V9.5h2.5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2.22-3c-.55-.61-1.33-1-2.22-1s-1.67.39-2.22 1H3V6h12v9H8.22zm9.78 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>دليفري
+  </div>
+  <div class="bitem" id="nav-doctors" onclick="switchTab('doctors')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>أطباء
   </div>
 </div>
 
@@ -505,14 +508,16 @@ function _g(id) { return _store[id]; }
 const SURL='https://kigzfvmilkakbffsdxel.supabase.co';
 const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZ3pmdm1pbGtha2JmZnNkeGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2OTMxNTksImV4cCI6MjA5MTI2OTE1OX0.h4q12LC0ZO_t9qhQXMlQSvbxBDHcL3yAmJDJ1lVmdCI';
 const {createClient}=supabase;
-const db=createClient(SURL,SKEY);
+const db=createClient(SURL,SKEY,{
+  auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}
+});
 
 window.addEventListener('load',()=>{
   setTimeout(()=>{
     document.getElementById('splash').classList.add('hide');
     setTimeout(()=>document.getElementById('splash').style.display='none',500);
   },2400);
-  loadOffers();loadRestos();loadDoctors();startClock();startFlyingAds();initAuth();updateTotalPoints();
+  loadOffers();loadRestos();loadDoctors();loadDelivery();loadPharmacy();startClock();startFlyingAds();initAuth();updateTotalPoints();
 });
 
 // THEME
@@ -553,7 +558,7 @@ async function startFlyingAds(){
   ];
   flyAds=data&&data.length?data:defaults;
   setTimeout(showFlyAd,3000);
-  setInterval(showFlyAd,10000);
+  setInterval(showFlyAd,6000);
 }
 
 function showFlyAd(){
@@ -561,22 +566,12 @@ function showFlyAd(){
   const ad=flyAds[Math.floor(Math.random()*flyAds.length)];
   const el=document.createElement('div');
   el.className='fly-ad';
-  el.innerHTML='<span class="fly-icon">'+(ad.emoji||'📢')+'</span>'+(ad.text||ad.name||'عرض جديد');
-  const fromRight=Math.random()>.5;
-  const top=20+Math.random()*50;
-  el.style.position='fixed';
-  el.style.top=top+'vh';
-  el.style.zIndex='999';
-  el.style.transition='none';
-  if(fromRight){el.style.right='-300px';el.style.left='auto';}
-  else{el.style.left='-300px';el.style.right='auto';}
+  el.innerHTML='<span class="fly-plane">✈️</span><div class="fly-banner">'+(ad.emoji||'📢')+' '+(ad.text||ad.name||'عرض جديد')+'</div>';
+  const top=15+Math.random()*55;
+  el.style.cssText='position:fixed;top:'+top+'vh;right:-400px;left:auto;z-index:999;pointer-events:none;';
   document.body.appendChild(el);
-  setTimeout(()=>{
-    el.style.transition='all 4s linear';
-    if(fromRight){el.style.right='110vw';}
-    else{el.style.left='110vw';}
-  },100);
-  setTimeout(()=>el.remove(),5000);
+  setTimeout(()=>{el.style.transition='right 5s linear';el.style.right='110vw';},100);
+  setTimeout(()=>el.remove(),6000);
 }
 
 // FILTER
@@ -668,9 +663,8 @@ async function loadRestos(){
     cafeEl.innerHTML='<div class="empty-state"><div class="eicon">☕</div><p>مفيش كافيهات دلوقتي</p></div>';
     return;
   }
-  const isCafe=r=>r.type&&(r.type.includes('كافيه')||r.type.includes('كافية')||r.type.includes('كافيهات')||r.type.toLowerCase().includes('cafe'));
-  const restos=data.filter(r=>!isCafe(r));
-  const cafes=data.filter(r=>isCafe(r));
+  const restos=data.filter(r=>!r.type||!r.type.includes('كافيه'));
+  const cafes=data.filter(r=>r.type&&r.type.includes('كافيه'));
   
   restoEl.innerHTML=restos.length?restos.map(r=>restoCard(r)).join(''):'<div class="empty-state"><div class="eicon">🍽️</div><p>مفيش مطاعم</p></div>';
   cafeEl.innerHTML=cafes.length?cafes.map(r=>`
@@ -720,30 +714,16 @@ function openPhoto(r){
   totalSlides=imgs.length||1;currentSlide=0;
   const slides=document.getElementById('photoSlides');
   slides.style.transform='translateX(0)';
-  slides.innerHTML=imgs.length?imgs.map(i=>'<div class="photo-slide"><img src="'+i.trim()+'" alt=""></div>').join(''):'<div class="photo-slide" style="display:flex;align-items:center;justify-content:center;flex-direction:column;color:#777;"><div style="font-size:48px">📷</div><div style="font-size:13px;margin-top:8px">مفيش صور بعد</div></div>';
+  slides.innerHTML=imgs.length?imgs.map(i=>`<div class="photo-slide"><img src="${i.trim()}" alt=""></div>`).join(''):'<div class="photo-slide"><div style="color:#777;font-size:32px">📷</div></div>';
   const dots=document.getElementById('photoDots');
-  dots.innerHTML=imgs.map((_,i)=>'<div class="photo-dot'+(i===0?' active':'')+'"></div>').join('');
-  
-  const addrHtml=r.address?'<div style="font-size:12px;color:var(--orange);padding:8px 0;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:8px;">📍 '+r.address+'</div>':'';
-  
-  const menu=r.menu?r.menu.split('\n').filter(l=>l.trim()).map(l=>{const p=l.split(':');return'<div class="pmitem"><span class="pmname">'+p[0].trim()+'</span><span class="pmprice">'+(p[1]||'').trim()+'</span></div>';}):[];
-  const ratingHtml='<div style="margin-top:12px;font-size:12px;color:#777;text-align:center;">قيّم المطعم:</div><div style="display:flex;justify-content:center;gap:8px;margin-top:6px;">'+[1,2,3,4,5].map(i=>'<span onclick="rateResto('+r.id+','+i+')" style="font-size:24px;cursor:pointer;">⭐</span>').join('')+'</div>';
-  document.getElementById('photoMenuItems').innerHTML=addrHtml+(menu.length?menu.join('')+ratingHtml:'<div class="pmitem"><span class="pmname">المنيو قريباً</span></div>');
-  
+  dots.innerHTML=imgs.map((_,i)=>`<div class="photo-dot${i===0?' active':''}"></div>`).join('');
+  const menu=r.menu?r.menu.split('\n').filter(l=>l.trim()).map(l=>{const p=l.split(':');return`<div class="pmitem"><span class="pmname">${p[0].trim()}</span><span class="pmprice">${(p[1]||'').trim()}</span></div>`;}):[];
+  const ratingHtml = '<div style="margin-top:12px;font-size:12px;color:#777;text-align:center;">قيّم المطعم:</div><div style="display:flex;justify-content:center;gap:8px;margin-top:6px;">'+[1,2,3,4,5].map(i=>'<span onclick="rateResto('+r.id+','+i+')" style="font-size:24px;cursor:pointer;">⭐</span>').join('')+'</div>';
+  document.getElementById('photoMenuItems').innerHTML=menu.length?menu.join('')+ratingHtml:'<div class="pmitem"><span class="pmname">المنيو قريباً</span></div>';
   const wa=r.whatsapp?r.whatsapp.trim():'';
-  const orderBtn=document.getElementById('photoOrderBtn');
-  orderBtn.style.display='none';
+  document.getElementById('photoOrderBtn').onclick=wa?()=>window.open('https://wa.me/2'+wa):()=>showToast('رقم مش متاح');
   
-  let orderBtns=document.getElementById('orderBtns');
-  if(!orderBtns){
-    orderBtns=document.createElement('div');
-    orderBtns.id='orderBtns';
-    orderBtns.style.cssText='display:flex;gap:8px;margin-top:14px;';
-    orderBtn.parentNode.insertBefore(orderBtns,orderBtn);
-  }
-  orderBtns.innerHTML='<button onclick="'+(wa?'window.location=\'tel:'+wa+'\'':"showToast('رقم مش متاح')")+'" style="flex:1;background:var(--cardbg2);border:1px solid var(--borderc);color:var(--text);padding:13px;border-radius:12px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">📞 اتصل</button>'
-  +'<button onclick="'+(wa?'window.open(\'https://wa.me/2'+wa+'\')':"showToast('رقم مش متاح')")+'" style="flex:1;background:#25D366;color:#fff;border:none;padding:13px;border-radius:12px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">💬 واتساب</button>';
-  
+  // Swipe
   const swipe=document.getElementById('photoSwipe');
   swipe.ontouchstart=e=>startX=e.touches[0].clientX;
   swipe.ontouchend=e=>{
@@ -755,6 +735,13 @@ function openPhoto(r){
   };
   document.getElementById('photoModal').classList.add('show');
 }
+
+function goSlide(n){
+  currentSlide=n;
+  document.getElementById('photoSlides').style.transform=`translateX(-${n*100}%)`;
+  document.querySelectorAll('.photo-dot').forEach((d,i)=>d.classList.toggle('active',i===n));
+}
+
 function closePhoto(){document.getElementById('photoModal').classList.remove('show');}
 
 async function rateResto(id,rating){
@@ -990,14 +977,27 @@ updateTotalPoints();
 let wplaces=[];
 function drawWheel(){}
 function spinWheel(){}
-</script>
 
-<script>
-if('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js');
-  });
+async function loadDelivery(){
+  const el=document.getElementById('deliveryList');
+  if(!el) return;
+  try{
+    const {data,error}=await db.from('delivery').select('*');
+    if(error||!data||!data.length){el.innerHTML='<div class="empty-state"><div class="eicon">🛵</div><p>مفيش دليفري دلوقتي</p></div>';return;}
+    el.innerHTML=data.map(function(d){return '<div class="resto" onclick="window.location=\'tel:'+d.phone+'\'">'+'<div class="ricon">'+(d.image_url?'<img src="'+d.image_url+'" alt="">':d.emoji||'🛵')+'</div>'+'<div class="rinfo"><div class="rname">'+d.name+'</div><div class="rtype">'+(d.area||'')+'</div></div>'+'<div style="color:var(--orange)">📞</div></div>';}).join('');
+  }catch(e){console.log(e);}
 }
+
+async function loadPharmacy(){
+  const el=document.getElementById('pharmacyList');
+  if(!el) return;
+  try{
+    const {data,error}=await db.from('pharmacy').select('*');
+    if(error||!data||!data.length){el.innerHTML='<div class="empty-state"><div class="eicon">💊</div><p>مفيش صيدليات دلوقتي</p></div>';return;}
+    el.innerHTML=data.map(function(p){return '<div class="resto" onclick="window.location=\'tel:'+p.phone+'\'">'+'<div class="ricon">'+(p.image_url?'<img src="'+p.image_url+'" alt="">':'💊')+'</div>'+'<div class="rinfo"><div class="rname">'+p.name+'</div><div class="rtype">'+(p.hours||'')+'</div>'+(p.address?'<div style="font-size:10px;color:var(--orange)">📍 '+p.address+'</div>':'')+'</div>'+'<div style="color:var(--orange)">📞</div></div>';}).join('');
+  }catch(e){console.log(e);}
+}
+
 </script>
 </body>
 </html>
