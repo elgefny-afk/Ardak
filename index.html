@@ -663,8 +663,9 @@ async function loadRestos(){
     cafeEl.innerHTML='<div class="empty-state"><div class="eicon">☕</div><p>مفيش كافيهات دلوقتي</p></div>';
     return;
   }
-  const restos=data.filter(r=>!r.type||!r.type.includes('كافيه'));
-  const cafes=data.filter(r=>r.type&&r.type.includes('كافيه'));
+  const isCafe=r=>{if(!r.type) return false; const t=r.type.toLowerCase(); return t.includes('كافيه')||t.includes('كافية')||t.includes('كافيهات')||t.includes('كافى')||t.includes('cafe')||t.includes('coffee');};
+  const restos=data.filter(r=>!isCafe(r));
+  const cafes=data.filter(r=>isCafe(r));
   
   restoEl.innerHTML=restos.length?restos.map(r=>restoCard(r)).join(''):'<div class="empty-state"><div class="eicon">🍽️</div><p>مفيش مطاعم</p></div>';
   cafeEl.innerHTML=cafes.length?cafes.map(r=>`
