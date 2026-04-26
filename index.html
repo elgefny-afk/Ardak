@@ -661,14 +661,17 @@ async function loadRestos(){
   const cafes=data.filter(r=>isCafe(r));
   
   restoEl.innerHTML=restos.length?restos.map(r=>restoCard(r)).join(''):'<div class="empty-state"><div class="eicon">🍽️</div><p>مفيش مطاعم</p></div>';
-  cafeEl.innerHTML=cafes.length?cafes.map(r=>`
-    <div class="cafe-card" onclick="openPhoto(_g(_s(r)))">
-      <div class="cafe-img">${r.image_url?`<img src="${r.image_url}" alt="${r.name}">`:' ☕'}</div>
-      <div class="cafe-body">
-        <div class="cafe-name">${r.name}</div>
-        <div class="cafe-type">${r.type||''} ${r.rating?'⭐'+r.rating.toFixed(1):''}</div>
+  cafeEl.innerHTML=cafes.length?cafes.map(r=>{
+    const _rid=_s(r);
+    return`<div class="resto" onclick="openPhoto(_g(${_rid}))">
+      <div class="ricon">${r.image_url?`<img src="${r.image_url}" alt="${r.name}">`:' ☕'}</div>
+      <div class="rinfo">
+        <div class="rname">${r.name} ${r.rating?`<span style="font-size:11px;color:var(--orange)">⭐${r.rating.toFixed(1)}</span>`:''}</div>
+        <div class="rtype">${r.type||''}</div>
+        <div class="rtags">${r.status==='open'?'<span class="rtag open">مفتوح</span>':'<span class="rtag" style="background:rgba(239,68,68,.15);color:#ef4444">مغلق</span>'} ${r.delivery==='yes'?'<span class="rtag delivery">توصيل</span>':''}</div>
       </div>
-    </div>`).join(''):'<div class="empty-state"><div class="eicon">☕</div><p>مفيش كافيهات</p></div>';
+      <div style="color:var(--mutedc)">‹</div>
+    </div>`; }).join(''):'<div class="empty-state"><div class="eicon">☕</div><p>مفيش كافيهات</p></div>';
   
   wplaces=data.map(r=>r.name);drawWheel();
 }
@@ -704,54 +707,52 @@ async function loadDoctors(){
 let currentSlide=0,totalSlides=0,startX=0;
 function openPhoto(r){
   document.getElementById('photoTitle').textContent=r.name;
-  
-  // Build images array
+
   const imgs=[];
   if(r.image_url&&r.image_url.trim()) imgs.push(r.image_url.trim());
   if(r.images){r.images.split(',').forEach(i=>{const t=i.trim();if(t&&!imgs.includes(t))imgs.push(t);});}
-  
+
   totalSlides=imgs.length||1;
   currentSlide=0;
-  
+
   const slides=document.getElementById('photoSlides');
   slides.style.transform='translateX(0)';
   slides.innerHTML=imgs.length
-    ? imgs.map(i=>`<div class="photo-slide"><img src="${i}" alt="" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openZoom('${i}')"></div>`).join('')
+    ? imgs.map(i=>'<div class="photo-slide"><img src="'+i+'" alt="" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openZoom(\''+i+'\')"></div>').join('')
     : '<div class="photo-slide" style="display:flex;align-items:center;justify-content:center;flex-direction:column;color:#777;"><div style="font-size:48px">📷</div><div style="font-size:12px;margin-top:8px">مفيش صور</div></div>';
-  
+
   const dots=document.getElementById('photoDots');
-  dots.innerHTML=imgs.map((_,i)=>`<div class="photo-dot${i===0?' active':''}"></div>`).join('');
+  dots.innerHTML=imgs.map((_,i)=>'<div class="photo-dot'+(i===0?' active':'')+'"></div>').join('');
 
   // Address
   const addrHtml=r.address
-    ? `<div style="font-size:12px;color:var(--orange);padding:8px 0;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--borderc);margin-bottom:8px;">📍 ${r.address}</div>`
+    ? '<div style="font-size:12px;color:var(--orange);padding:8px 0;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--borderc);margin-bottom:8px;">📍 '+r.address+'</div>'
     : '';
 
-  // Menu - image or text
+  // Menu - detect image URL or text
   let menuHtml='';
-  if(r.menu&&r.menu.trim()){
-    const m=r.menu.trim();
-    const isImg=m.startsWith('http')||m.startsWith('data:')||m.match(/\.(jpg|jpeg|png|webp|gif)/i);
+  const menuVal=(r.menu||'').trim();
+  if(menuVal){
+    const firstLine=menuVal.split('\n')[0].trim();
+    const isImg=firstLine.startsWith('http')||firstLine.startsWith('https')||firstLine.startsWith('data:')||/\.(jpg|jpeg|png|webp|gif)/i.test(firstLine);
+    const imgSrc=isImg?firstLine:null;
     if(isImg){
-      menuHtml=`<div style="margin-bottom:10px;">
-        <img src="${m}" alt="منيو" style="width:100%;border-radius:12px;cursor:zoom-in;display:block;" onclick="openZoom('${m}')">
-        <div style="font-size:10px;color:var(--mutedc);text-align:center;margin-top:4px;">اضغط للتكبير 🔍</div>
-      </div>`;
+      menuHtml='<div style="margin-bottom:10px;"><div style="font-size:12px;font-weight:800;color:var(--orange);margin-bottom:8px;">📋 المنيو</div><img src="'+imgSrc+'" alt="منيو" style="width:100%;border-radius:12px;cursor:zoom-in;display:block;" onclick="openZoom(\''+imgSrc+'\')"><div style="font-size:10px;color:var(--mutedc);text-align:center;margin-top:4px;">اضغط للتكبير 🔍</div></div>';
     } else {
-      const lines=m.split('\n').filter(l=>l.trim()).map(l=>{
+      const lines=menuVal.split('\n').filter(l=>l.trim()).map(l=>{
         const p=l.split(':');
-        return`<div class="pmitem"><span class="pmname">${p[0].trim()}</span><span class="pmprice">${(p[1]||'').trim()}</span></div>`;
+        return'<div class="pmitem"><span class="pmname">'+p[0].trim()+'</span><span class="pmprice">'+(p[1]||'').trim()+'</span></div>';
       });
-      menuHtml=lines.join('');
+      menuHtml='<div style="font-size:12px;font-weight:800;color:var(--orange);margin-bottom:8px;">📋 المنيو</div>'+lines.join('');
     }
   }
 
-  const ratingHtml='<div style="margin-top:12px;font-size:12px;color:#777;text-align:center;">قيّم المطعم:</div>'
+  const ratingHtml='<div style="margin-top:12px;font-size:12px;color:#777;text-align:center;">قيّم:</div>'
     +'<div style="display:flex;justify-content:center;gap:8px;margin-top:6px;">'
-    +[1,2,3,4,5].map(i=>`<span onclick="rateResto(${r.id},${i})" style="font-size:24px;cursor:pointer;">⭐</span>`).join('')
+    +[1,2,3,4,5].map(i=>'<span onclick="rateResto('+r.id+','+i+')" style="font-size:22px;cursor:pointer;">⭐</span>').join('')
     +'</div>';
 
-  document.getElementById('photoMenuItems').innerHTML=addrHtml+(menuHtml?menuHtml+ratingHtml:'<div class="pmitem"><span class="pmname">المنيو قريباً</span></div>');
+  document.getElementById('photoMenuItems').innerHTML=addrHtml+(menuHtml||'<div class="pmitem"><span class="pmname">المنيو قريباً</span></div>')+ratingHtml;
 
   // Order buttons
   const wa=r.whatsapp?r.whatsapp.trim():'';
@@ -765,17 +766,17 @@ function openPhoto(r){
     orderBtn.parentNode.insertBefore(orderBtns,orderBtn);
   }
   orderBtns.innerHTML=
-    `<button onclick="${wa?`window.location='tel:${wa}'`:"showToast('رقم مش متاح')"}" style="flex:1;background:var(--cardbg2);border:1px solid var(--borderc);color:var(--text);padding:13px;border-radius:12px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">📞 اتصل</button>`
-    +`<button onclick="${wa?`window.open('https://wa.me/2${wa}')`:"showToast('رقم مش متاح')"}" style="flex:1;background:#25D366;color:#fff;border:none;padding:13px;border-radius:12px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">💬 واتساب</button>`;
+    '<button onclick="'+(wa?'window.location=\'tel:'+wa+'\'':'showToast(\'رقم مش متاح\')')+'" style="flex:1;background:var(--cardbg2);border:1px solid var(--borderc);color:var(--text);padding:13px;border-radius:12px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">📞 اتصل</button>'
+    +'<button onclick="'+(wa?'window.open(\'https://wa.me/2'+wa+'\')':'showToast(\'رقم مش متاح\')')+'" style="flex:1;background:#25D366;color:#fff;border:none;padding:13px;border-radius:12px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">💬 واتساب</button>';
 
-  // Swipe touch events
+  // Swipe
   const swipe=document.getElementById('photoSwipe');
   let sx=0,sy=0;
-  swipe.ontouchstart=e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;e.stopPropagation();};
+  swipe.ontouchstart=e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;};
   swipe.ontouchmove=e=>{
     const dx=Math.abs(e.touches[0].clientX-sx);
     const dy=Math.abs(e.touches[0].clientY-sy);
-    if(dx>dy)e.preventDefault();
+    if(dx>dy&&dx>10)e.preventDefault();
   };
   swipe.ontouchend=e=>{
     const dx=sx-e.changedTouches[0].clientX;
