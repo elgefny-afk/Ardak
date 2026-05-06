@@ -328,6 +328,80 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
 
 /* OFFER MODAL - bigger image */
 .om-img{width:100%;height:260px;object-fit:cover;background:linear-gradient(135deg,#222,#333);display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden;}
+
+/* ══ MERCHANT PORTAL ══════════════════════════════════════════════════ */
+.merch-sub{display:none;padding:14px 14px 100px;}
+.merch-sub.active{display:block;animation:pageIn .3s cubic-bezier(.34,1.2,.64,1);}
+.merch-login-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:10px;}
+.merch-card{background:var(--cardbg);border:1px solid var(--borderc);border-radius:20px;padding:20px;width:100%;max-width:360px;}
+.mfield{margin-bottom:13px;}
+.mfield label{font-size:11px;font-weight:700;color:var(--mutedc);display:block;margin-bottom:5px;}
+.mfield input,.mfield select,.mfield textarea{width:100%;background:var(--cardbg2);border:1px solid var(--borderc);border-radius:12px;padding:11px 13px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.mfield input:focus,.mfield select:focus,.mfield textarea:focus{border-color:var(--orange);}
+.mfield textarea{resize:vertical;min-height:70px;}
+.mfield-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mbtn{width:100%;padding:13px;border-radius:12px;border:none;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;}
+.mbtn-primary{background:var(--orange);color:#fff;}
+.mbtn-primary:active{transform:scale(.97);}
+.mbtn-primary:disabled{opacity:.55;cursor:not-allowed;}
+.mbtn-outline{background:transparent;border:1.5px solid var(--borderc);color:var(--text);}
+.mbtn-danger{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+.merr{color:#ef4444;font-size:11px;text-align:center;margin-top:8px;display:none;}
+.mstats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px;}
+.mstat{background:var(--cardbg);border:1px solid var(--borderc);border-radius:13px;padding:13px;text-align:center;}
+.mstat-val{font-size:24px;font-weight:900;color:var(--orange);}
+.mstat-lbl{font-size:10px;color:var(--mutedc);font-weight:700;margin-top:2px;}
+.mquota{background:var(--cardbg);border:2px solid var(--orange);border-radius:14px;padding:14px;margin-bottom:13px;}
+.mquota-bar-bg{background:var(--cardbg2);border-radius:10px;height:7px;overflow:hidden;margin:7px 0;}
+.mquota-bar-fill{height:100%;background:var(--orange);border-radius:10px;transition:width .5s;}
+.moffer-item{background:var(--cardbg);border:1px solid var(--borderc);border-radius:13px;padding:13px;margin-bottom:9px;display:flex;align-items:center;gap:11px;}
+.moffer-icon{font-size:26px;min-width:38px;text-align:center;}
+.moffer-info{flex:1;min-width:0;}
+.moffer-name{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.moffer-meta{font-size:10px;color:var(--mutedc);margin-top:2px;}
+.mstatus{font-size:10px;padding:2px 9px;border-radius:16px;font-weight:700;display:inline-block;margin-top:4px;}
+.mstatus-pending{background:rgba(234,179,8,.15);color:#eab308;}
+.mstatus-approved{background:rgba(34,197,94,.15);color:#22c55e;}
+.mstatus-rejected{background:rgba(239,68,68,.15);color:#ef4444;}
+.mpkg{background:var(--cardbg);border:2px solid var(--borderc);border-radius:14px;padding:14px;margin-bottom:11px;cursor:pointer;transition:border-color .2s,background .2s;}
+.mpkg.sel{border-color:var(--orange);background:var(--og);}
+.mpkg-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.mpkg-name{font-size:14px;font-weight:800;}
+.mpkg-price{font-size:19px;font-weight:900;color:var(--orange);}
+.mpkg-feat{font-size:10px;color:var(--mutedc);margin-top:3px;}
+.mpkg-feat::before{content:'✓ ';color:#22c55e;font-weight:900;}
+.mpkg-badge{font-size:9px;background:var(--orange);color:#fff;padding:2px 7px;border-radius:8px;margin-left:6px;}
+.mvf{background:linear-gradient(135deg,#e60000,#8b0000);border-radius:14px;padding:16px;margin-bottom:13px;text-align:center;}
+.mvf-num{font-size:24px;font-weight:900;color:#fff;letter-spacing:2px;margin-bottom:3px;}
+.mvf-lbl{font-size:10px;color:rgba(255,255,255,.8);margin-bottom:3px;}
+.mvf-name{font-size:11px;color:rgba(255,255,255,.75);}
+.mvf-copy{background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 18px;border-radius:16px;font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin-top:8px;}
+.mupload{border:2px dashed var(--borderc);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:13px;}
+.mupload:hover{border-color:var(--orange);}
+.mupload.ok{border-color:#22c55e;background:rgba(34,197,94,.05);}
+.mupload-icon{font-size:32px;margin-bottom:6px;}
+.mupload-txt{font-size:12px;font-weight:700;}
+.mupload-sub{font-size:10px;color:var(--mutedc);margin-top:3px;}
+#mReceiptPreview,#mShopPhotoPreview{width:100%;border-radius:9px;margin-top:10px;display:none;max-height:180px;object-fit:contain;}
+.mpay-item{background:var(--cardbg);border:1px solid var(--borderc);border-radius:12px;padding:12px;margin-bottom:9px;}
+.mpay-top{display:flex;justify-content:space-between;align-items:center;}
+.mpay-pkg{font-size:12px;font-weight:700;}
+.mpay-amt{font-size:14px;font-weight:900;color:var(--orange);}
+.mpay-date{font-size:10px;color:var(--mutedc);margin-top:3px;}
+.malert{border-radius:11px;padding:11px 13px;font-size:11px;font-weight:700;margin-bottom:11px;line-height:1.6;}
+.malert-info{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;}
+.malert-warn{background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);color:#fbbf24;}
+.malert-ok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#4ade80;}
+.malert-err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+.apply-hero{background:linear-gradient(135deg,var(--orange),#c94e00);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;}
+.apply-hero-icon{font-size:40px;margin-bottom:6px;}
+.apply-hero-title{font-size:17px;font-weight:900;}
+.apply-hero-sub{font-size:11px;opacity:.85;margin-top:3px;}
+.mbnav{display:flex;border-bottom:1px solid var(--borderc);margin-bottom:14px;background:var(--cardbg);position:sticky;top:64px;z-index:50;}
+.mbtab{flex:1;padding:10px 4px;text-align:center;font-size:10px;font-weight:700;color:var(--mutedc);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;}
+.mbtab.active{color:var(--orange);border-bottom-color:var(--orange);}
+.mbtab-icon{font-size:18px;display:block;margin-bottom:2px;}
+/* ══ END MERCHANT PORTAL ══════════════════════════════════════════════ */
 </style>
 </head>
 <body>
@@ -354,6 +428,8 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
   <div class="menu-item" onclick="switchTab('hg');closeMenu()"><span class="mi">⏳</span> ساعة عرضك</div>
   <div class="menu-item" onclick="switchTab('soon');closeMenu()"><span class="mi">🎮</span> التسالي والألعاب</div>
   <div class="menu-item" onclick="switchTab('contact');closeMenu()"><span class="mi">📞</span> تواصل معنا</div>
+  <div class="menu-item" onclick="switchTab('apply');closeMenu()"><span class="mi">📝</span> سجّل محلك</div>
+  <div class="menu-item" onclick="switchTab('merchant');closeMenu()"><span class="mi">🏪</span> بوابة التجار</div>
   <div class="menu-social">
     <div class="menu-social-title">تابعنا</div>
     <div class="menu-social-icons">
@@ -558,6 +634,192 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
     <button class="porder-btn" id="photoOrderBtn">📱 اطلب على واتساب</button>
   </div>
 </div>
+
+
+<!-- MERCHANT APPLY SECTION -->
+<div class="sec" id="sec-apply">
+  <div class="apply-hero">
+    <div class="apply-hero-icon">🏪</div>
+    <div class="apply-hero-title">سجّل محلك في عرضك</div>
+    <div class="apply-hero-sub">وصّل عروضك لآلاف الناس في أبوكبير</div>
+  </div>
+  <div class="malert malert-info">✅ التسجيل مجاني — هنراجع طلبك وهنتواصل معاك على واتساب خلال 24 ساعة</div>
+  <div id="applyForm">
+    <div class="merch-card" style="max-width:100%">
+      <div class="mfield"><label>اسم المحل / المطعم *</label><input type="text" id="apName" placeholder="مثال: مطعم الشعب"></div>
+      <div class="mfield"><label>اسم صاحب المحل *</label><input type="text" id="apOwner" placeholder="اسمك الكريم"></div>
+      <div class="mfield-row">
+        <div class="mfield"><label>نوع النشاط *</label>
+          <select id="apType">
+            <option value="">اختر</option>
+            <option>🍽️ مطعم</option><option>☕ كافيه</option><option>👗 ملابس</option>
+            <option>👟 أحذية</option><option>🔧 خدمات</option><option>🛒 بقالة</option>
+            <option>🍰 حلويات</option><option>💊 صيدلية</option><option>📱 إلكترونيات</option><option>📦 أخرى</option>
+          </select>
+        </div>
+        <div class="mfield"><label>رقم الواتساب *</label><input type="tel" id="apPhone" placeholder="01xxxxxxxxx"></div>
+      </div>
+      <div class="mfield"><label>عنوان المحل</label><input type="text" id="apAddr" placeholder="مثال: شارع الجمهورية، بجوار..."></div>
+      <div class="mfield"><label>وصف مختصر (اختياري)</label><textarea id="apDesc" placeholder="بيتميز محلك بإيه؟"></textarea></div>
+      <div class="mfield">
+        <label>📸 صورة واجهة المحل (إثبات إنك تاجر)</label>
+        <div class="mupload" id="shopPhotoArea" onclick="document.getElementById('shopPhotoFile').click()">
+          <div class="mupload-icon">🏪</div>
+          <div class="mupload-txt">اضغط لرفع صورة المحل</div>
+          <div class="mupload-sub">PNG أو JPG · مطلوبة للتحقق</div>
+          <img id="mShopPhotoPreview" alt="صورة المحل">
+        </div>
+        <input type="file" id="shopPhotoFile" accept="image/*" style="display:none" onchange="previewShopPhoto(event)">
+      </div>
+      <button class="mbtn mbtn-primary" id="apSubmitBtn" onclick="submitMerchantApplication()">إرسال الطلب 🚀</button>
+      <div class="merr" id="apError">ملِّي الحقول المطلوبة (*)</div>
+    </div>
+  </div>
+  <div id="applySuccess" style="display:none;text-align:center;padding:40px 20px;">
+    <div style="font-size:64px;margin-bottom:16px;">🎉</div>
+    <div style="font-size:18px;font-weight:900;margin-bottom:8px;">تم إرسال طلبك!</div>
+    <div style="font-size:13px;color:var(--mutedc);line-height:1.7;">هنراجعه وهنبعتلك يوزرنيم وباسورد على واتساب خلال 24 ساعة</div>
+    <button class="mbtn mbtn-outline" style="margin-top:20px;max-width:200px;margin-inline:auto;" onclick="switchTab('offers')">عودة للعروض</button>
+  </div>
+</div>
+
+<!-- MERCHANT PORTAL SECTION -->
+<div class="sec" id="sec-merchant">
+
+  <!-- LOGIN VIEW -->
+  <div class="merch-sub active" id="msub-login">
+    <div class="merch-login-wrap">
+      <div style="font-size:52px;margin-bottom:10px;">🏪</div>
+      <div style="font-size:20px;font-weight:900;color:var(--orange);margin-bottom:4px;">بوابة التجار</div>
+      <div style="font-size:12px;color:var(--mutedc);margin-bottom:24px;text-align:center;">ادخل بيوزرنيم وباسورد اللي اتبعتلك على واتساب</div>
+      <div class="merch-card">
+        <div class="mfield"><label>اسم المستخدم</label><input type="text" id="mLoginUser" placeholder="username" onkeydown="if(event.key==='Enter')doMerchantLogin()"></div>
+        <div class="mfield"><label>كلمة المرور</label><input type="password" id="mLoginPass" placeholder="••••••" onkeydown="if(event.key==='Enter')doMerchantLogin()"></div>
+        <button class="mbtn mbtn-primary" id="mLoginBtn" onclick="doMerchantLogin()">دخول 🔑</button>
+        <div class="merr" id="mLoginErr">اسم المستخدم أو كلمة المرور غلط ❌</div>
+        <div style="text-align:center;margin-top:14px;">
+          <span style="font-size:12px;color:var(--mutedc);">مش مسجّل لسه؟ </span>
+          <span style="font-size:12px;color:var(--orange);font-weight:700;cursor:pointer;" onclick="switchTab('apply')">سجّل محلك هنا</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD VIEW -->
+  <div class="merch-sub" id="msub-dashboard">
+    <div class="mbnav">
+      <div class="mbtab active" onclick="showMerchTab('home',this)"><span class="mbtab-icon">🏠</span>الرئيسية</div>
+      <div class="mbtab" onclick="showMerchTab('add',this)"><span class="mbtab-icon">➕</span>إضافة</div>
+      <div class="mbtab" onclick="showMerchTab('pay',this)"><span class="mbtab-icon">💳</span>شحن</div>
+      <div class="mbtab" onclick="showMerchTab('settings',this)"><span class="mbtab-icon">⚙️</span>إعدادات</div>
+    </div>
+
+    <!-- HOME -->
+    <div id="mpage-home">
+      <div class="mstats">
+        <div class="mstat"><div class="mstat-val" id="mStatRemain">—</div><div class="mstat-lbl">عروض متبقية</div></div>
+        <div class="mstat"><div class="mstat-val" id="mStatApproved">—</div><div class="mstat-lbl">مقبولة</div></div>
+        <div class="mstat"><div class="mstat-val" id="mStatPending">—</div><div class="mstat-lbl">قيد المراجعة</div></div>
+        <div class="mstat"><div class="mstat-val" id="mStatVip">—</div><div class="mstat-lbl">الاشتراك</div></div>
+      </div>
+      <div id="mQuotaSection"></div>
+      <div class="stitle">🔥 عروضي</div>
+      <div id="mOffersList"><div class="empty-state"><div class="eicon">⏳</div><p>جاري التحميل...</p></div></div>
+    </div>
+
+    <!-- ADD OFFER -->
+    <div id="mpage-add" style="display:none">
+      <div id="mAddWarn"></div>
+      <div class="merch-card" style="max-width:100%">
+        <div class="stitle" style="font-size:13px">➕ عرض جديد</div>
+        <div class="mfield"><label>اسم العرض *</label><input type="text" id="moName" placeholder="مثال: وجبة اقتصادية"></div>
+        <div class="mfield"><label>اسم المحل *</label><input type="text" id="moShop" placeholder="اسم محلك"></div>
+        <div class="mfield"><label>وصف مختصر</label><textarea id="moDesc" placeholder="تفاصيل العرض..."></textarea></div>
+        <div class="mfield-row">
+          <div class="mfield"><label>السعر الجديد (ج.م) *</label><input type="number" id="moNewP" placeholder="0" min="0"></div>
+          <div class="mfield"><label>السعر القديم</label><input type="number" id="moOldP" placeholder="0" min="0"></div>
+        </div>
+        <div class="mfield"><label>التصنيف *</label>
+          <select id="moCat">
+            <option value="">اختر</option>
+            <option>مطعم</option><option>كافيه</option><option>ملابس</option>
+            <option>احذية</option><option>خدمات</option><option>بقالة</option>
+            <option>حلويات</option><option>إلكترونيات</option>
+          </select>
+        </div>
+        <div class="mfield"><label>رابط صورة (اختياري)</label><input type="url" id="moImg" placeholder="https://..."></div>
+        <div class="mfield"><label>تاريخ انتهاء (اختياري)</label><input type="datetime-local" id="moExpiry"></div>
+        <button class="mbtn mbtn-primary" id="mOfferSubmitBtn" onclick="submitMerchantOffer()">إرسال للمراجعة 🚀</button>
+      </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div id="mpage-pay" style="display:none">
+      <div class="stitle" style="font-size:13px">💳 شحن عروض</div>
+      <div class="malert malert-info">اختار الباقة ← حوّل فودافون كاش ← ارفع الإيصال ⚡</div>
+      <div class="mpkg" onclick="mSelectPkg(this,5,30)">
+        <div class="mpkg-top"><div class="mpkg-name">⚡ ستارتر</div><div class="mpkg-price">30 ج.م</div></div>
+        <div class="mpkg-feat">5 عروض · شهر كامل</div>
+      </div>
+      <div class="mpkg" onclick="mSelectPkg(this,10,50)">
+        <div class="mpkg-top"><div class="mpkg-name">🔥 برو <span class="mpkg-badge">الأكثر طلباً</span></div><div class="mpkg-price">50 ج.م</div></div>
+        <div class="mpkg-feat">10 عروض · شهر كامل · VIP ⭐</div>
+      </div>
+      <div class="mpkg" onclick="mSelectPkg(this,25,100)">
+        <div class="mpkg-top"><div class="mpkg-name">👑 بريميوم</div><div class="mpkg-price">100 ج.م</div></div>
+        <div class="mpkg-feat">25 عرض · شهر كامل · أول ما يظهر ⭐⭐</div>
+      </div>
+      <div id="mPaySteps" style="display:none">
+        <div class="mvf">
+          <div class="mvf-lbl">حوّل على فودافون كاش</div>
+          <div class="mvf-num">01288588648</div>
+          <div class="mvf-name">محمد · عرضك أبوكبير</div>
+          <button class="mvf-copy" onclick="mCopyVF()">📋 نسخ الرقم</button>
+        </div>
+        <div class="malert malert-warn">⚠️ اكتب "عرضك" في ملاحظات التحويل</div>
+        <div class="stitle" style="font-size:12px">📸 ارفع إيصال التحويل</div>
+        <div class="mupload" id="mReceiptArea" onclick="document.getElementById('mReceiptFile').click()">
+          <div class="mupload-icon">📷</div>
+          <div class="mupload-txt">اضغط لرفع السكرين</div>
+          <div class="mupload-sub">PNG أو JPG · أقصى 5MB</div>
+          <img id="mReceiptPreview" alt="الإيصال">
+        </div>
+        <input type="file" id="mReceiptFile" accept="image/*" style="display:none" onchange="mPreviewReceipt(event)">
+        <div class="mfield"><label>رقم تليفونك</label><input type="tel" id="mPayPhone" placeholder="01xxxxxxxxx"></div>
+        <button class="mbtn mbtn-primary" id="mPaySubmitBtn" onclick="submitMerchantPayment()">إرسال طلب الشحن 🚀</button>
+        <div id="mWaNotify" style="display:none;margin-top:12px;">
+          <div class="malert malert-ok">✅ تم! اضغط الزرار ده لإبلاغ الأدمن على واتساب</div>
+          <a id="mWaLink" href="#" target="_blank"><button class="mbtn" style="background:#25D366;color:#fff;">💬 أبلغ الأدمن على واتساب</button></a>
+        </div>
+      </div>
+      <div style="margin-top:20px">
+        <div class="stitle" style="font-size:12px">📋 سجل المدفوعات</div>
+        <div id="mPayHistory"><div class="empty-state"><div class="eicon">📭</div><p>مفيش مدفوعات سابقة</p></div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="mpage-settings" style="display:none">
+      <div class="stitle" style="font-size:13px">🔑 تغيير كلمة المرور</div>
+      <div class="merch-card" style="max-width:100%">
+        <div class="mfield"><label>كلمة المرور الحالية</label><input type="password" id="mOldPass" placeholder="••••••"></div>
+        <div class="mfield"><label>كلمة المرور الجديدة</label><input type="password" id="mNewPass" placeholder="••••••"></div>
+        <div class="mfield"><label>تأكيد كلمة المرور</label><input type="password" id="mConfPass" placeholder="••••••"></div>
+        <button class="mbtn mbtn-primary" onclick="mChangePass()">تحديث ✅</button>
+      </div>
+      <div style="height:12px"></div>
+      <div class="merch-card" style="max-width:100%">
+        <div style="font-size:12px;color:var(--mutedc);margin-bottom:12px;">تواصل مع الدعم 💬</div>
+        <a href="https://wa.me/201288588648?text=مرحبا، أنا تاجر في عرضك" target="_blank">
+          <button class="mbtn mbtn-primary">واتساب الدعم 📲</button>
+        </a>
+      </div>
+      <div style="height:12px"></div>
+      <button class="mbtn mbtn-danger" onclick="doMerchantLogout()">تسجيل الخروج 🚪</button>
+    </div>
+
+  </div><!-- /msub-dashboard -->
+</div><!-- /sec-merchant -->
 
 <!-- OFFER MODAL -->
 <div class="offer-modal" id="offerModal" onclick="if(event.target===this)closeOfferModal()">
@@ -1460,6 +1722,309 @@ function doSearch(q){
 </script>
 
 <script>
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// MERCHANT PORTAL JS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let mMerchant = null;
+let mSelPkg   = null;
+let mReceiptB64 = null;
+let mShopB64    = null;
+
+// restore session
+(function(){
+  try { const s=localStorage.getItem('ardak_m'); if(s) mMerchant=JSON.parse(s); } catch(e){}
+})();
+
+// hook switchTab to auto-show dashboard if session exists
+const _origSwitch = switchTab;
+function switchTab(tab){
+  _origSwitch(tab);
+  if(tab==='merchant' && mMerchant){
+    setTimeout(showMerchantDashboard, 30);
+  }
+}
+
+// ── LOGIN ──────────────────────────────────────
+async function doMerchantLogin(){
+  const user=document.getElementById('mLoginUser').value.trim();
+  const pass=document.getElementById('mLoginPass').value.trim();
+  if(!user||!pass){showToast('ادخل اليوزرنيم والباسورد');return;}
+  const btn=document.getElementById('mLoginBtn');
+  btn.disabled=true; btn.textContent='⏳ جاري الدخول...';
+  const {data,error}=await db.from('merchants').select('*').eq('username',user).eq('password',pass).single();
+  btn.disabled=false; btn.textContent='دخول 🔑';
+  if(error||!data){
+    document.getElementById('mLoginErr').style.display='block';return;
+  }
+  document.getElementById('mLoginErr').style.display='none';
+  mMerchant=data;
+  localStorage.setItem('ardak_m',JSON.stringify(data));
+  showMerchantDashboard();
+}
+
+function doMerchantLogout(){
+  localStorage.removeItem('ardak_m');
+  mMerchant=null;
+  document.querySelectorAll('.merch-sub').forEach(s=>s.classList.remove('active'));
+  document.getElementById('msub-login').classList.add('active');
+  showToast('تم الخروج');
+}
+
+function showMerchantDashboard(){
+  document.querySelectorAll('.merch-sub').forEach(s=>s.classList.remove('active'));
+  document.getElementById('msub-dashboard').classList.add('active');
+  loadMerchantDashboard();
+}
+
+// ── DASHBOARD ──────────────────────────────────
+async function loadMerchantDashboard(){
+  if(!mMerchant)return;
+  const {data:fresh}=await db.from('merchants').select('*').eq('id',mMerchant.id).single();
+  if(fresh){mMerchant=fresh;localStorage.setItem('ardak_m',JSON.stringify(fresh));}
+  const quota=mMerchant.offers_quota??3;
+  const used=mMerchant.offers_used??0;
+  const remain=Math.max(0,quota-used);
+  const isVip=mMerchant.is_vip??false;
+  const {data:offers}=await db.from('merchant_offers').select('*').eq('merchant_email',mMerchant.email??'').order('id',{ascending:false});
+  const approved=(offers||[]).filter(o=>o.status==='approved').length;
+  const pending=(offers||[]).filter(o=>o.status==='pending').length;
+  document.getElementById('mStatRemain').textContent=remain;
+  document.getElementById('mStatApproved').textContent=approved;
+  document.getElementById('mStatPending').textContent=pending;
+  document.getElementById('mStatVip').textContent=isVip?'⭐ VIP':'🆓 مجاني';
+  const pct=quota>0?Math.min(100,(used/quota)*100):0;
+  document.getElementById('mQuotaSection').innerHTML=`
+    <div class="mquota">
+      <div style="font-size:12px;font-weight:800;margin-bottom:7px;">📊 حصة العروض</div>
+      <div class="mquota-bar-bg"><div class="mquota-bar-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:10px;color:var(--mutedc);">استخدمت ${used} من ${quota} — تبقى ${remain}</div>
+      ${remain===0?'<div class="malert malert-err" style="margin-top:8px">⚠️ خلص رصيدك! اشحن من تبويب 💳</div>':''}
+    </div>`;
+  const list=document.getElementById('mOffersList');
+  if(!offers||offers.length===0){
+    list.innerHTML='<div class="empty-state"><div class="eicon">📦</div><p>مفيش عروض — اضغط ➕</p></div>';return;
+  }
+  const icons={مطعم:'🍽️',كافيه:'☕',ملابس:'👗',احذية:'👟',خدمات:'🔧',بقالة:'🛒',حلويات:'🍰',إلكترونيات:'📱'};
+  list.innerHTML=offers.map(o=>`
+    <div class="moffer-item">
+      <div class="moffer-icon">${icons[o.category]||'🏷️'}</div>
+      <div class="moffer-info">
+        <div class="moffer-name">${o.name}</div>
+        <div class="moffer-meta">${o.shop} · ${o.new_price} ج.م</div>
+        <span class="mstatus mstatus-${o.status}">${o.status==='pending'?'⏳ قيد المراجعة':o.status==='approved'?'✅ مقبول':'❌ مرفوض'}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ── ADD OFFER ──────────────────────────────────
+async function submitMerchantOffer(){
+  const q=mMerchant.offers_quota??3, u=mMerchant.offers_used??0;
+  if(u>=q){showToast('خلص رصيدك! اشحن من تبويب 💳');return;}
+  const name=document.getElementById('moName').value.trim();
+  const shop=document.getElementById('moShop').value.trim();
+  const np=document.getElementById('moNewP').value;
+  const cat=document.getElementById('moCat').value;
+  if(!name||!shop||!np||!cat){showToast('ملِّي الحقول المطلوبة (*)');return;}
+  const btn=document.getElementById('mOfferSubmitBtn');
+  btn.disabled=true; btn.textContent='⏳ جاري الإرسال...';
+  const {error}=await db.from('merchant_offers').insert({
+    name, shop,
+    description:document.getElementById('moDesc').value.trim(),
+    new_price:parseFloat(np),
+    old_price:document.getElementById('moOldP').value?parseFloat(document.getElementById('moOldP').value):null,
+    category:cat,
+    image_url:document.getElementById('moImg').value.trim()||null,
+    expires_at:document.getElementById('moExpiry').value||null,
+    merchant_email:mMerchant.email,
+    status:'pending'
+  });
+  btn.disabled=false; btn.textContent='إرسال للمراجعة 🚀';
+  if(error){showToast('حصل خطأ، حاول تاني');return;}
+  await db.from('merchants').update({offers_used:u+1}).eq('id',mMerchant.id);
+  mMerchant.offers_used=u+1;
+  localStorage.setItem('ardak_m',JSON.stringify(mMerchant));
+  showToast('✅ تم إرسال العرض للمراجعة');
+  ['moName','moShop','moDesc','moNewP','moOldP','moImg','moExpiry'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  if(document.getElementById('moCat')) document.getElementById('moCat').value='';
+  showMerchTab('home', document.querySelector('.mbtab'));
+}
+
+// ── PAYMENT ────────────────────────────────────
+function mSelectPkg(el,offers,price){
+  document.querySelectorAll('.mpkg').forEach(p=>p.classList.remove('sel'));
+  el.classList.add('sel');
+  mSelPkg={offers,price};
+  document.getElementById('mPaySteps').style.display='block';
+  document.getElementById('mPaySteps').scrollIntoView({behavior:'smooth'});
+}
+function mCopyVF(){
+  try{navigator.clipboard.writeText('01288588648').then(()=>showToast('تم نسخ الرقم 📋'));}
+  catch(e){showToast('الرقم: 01288588648');}
+}
+function mPreviewReceipt(e){
+  const f=e.target.files[0]; if(!f)return;
+  if(f.size>5*1024*1024){showToast('الصورة كبيرة أوي (أقصى 5MB)');return;}
+  const r=new FileReader();
+  r.onload=ev=>{
+    mReceiptB64=ev.target.result;
+    const p=document.getElementById('mReceiptPreview'); p.src=mReceiptB64; p.style.display='block';
+    const a=document.getElementById('mReceiptArea');
+    a.classList.add('ok');
+    a.querySelector('.mupload-txt').textContent='✅ تم اختيار الصورة';
+  };
+  r.readAsDataURL(f);
+}
+async function submitMerchantPayment(){
+  if(!mSelPkg){showToast('اختار الباقة الأول');return;}
+  if(!mReceiptB64){showToast('ارفع صورة الإيصال الأول');return;}
+  const btn=document.getElementById('mPaySubmitBtn');
+  btn.disabled=true; btn.textContent='⏳ جاري الإرسال...';
+  try{
+    let receiptUrl=null;
+    try{
+      const fname='receipts/'+mMerchant.id+'_'+Date.now()+'.jpg';
+      const blob=await(await fetch(mReceiptB64)).blob();
+      const {error:ue}=await db.storage.from('receipts').upload(fname,blob,{contentType:'image/jpeg',upsert:true});
+      if(!ue){const {data:ud}=db.storage.from('receipts').getPublicUrl(fname);receiptUrl=ud.publicUrl;}
+    }catch(_){}
+    const pkgNames={5:'ستارتر',10:'برو',25:'بريميوم'};
+    const {error}=await db.from('payment_requests').insert({
+      merchant_id:String(mMerchant.id),
+      merchant_name:mMerchant.name,
+      merchant_email:mMerchant.email,
+      amount:mSelPkg.price,
+      phone:document.getElementById('mPayPhone').value.trim(),
+      receipt_url:receiptUrl,
+      receipt_b64:receiptUrl?null:mReceiptB64,
+      package_name:pkgNames[mSelPkg.offers]||'باقة',
+      package_offers:mSelPkg.offers,
+      status:'pending'
+    });
+    if(error)throw error;
+    const waMsg=encodeURIComponent('🔔 طلب شحن جديد!
+التاجر: '+mMerchant.name+'
+الباقة: '+mSelPkg.offers+' عروض
+المبلغ: '+mSelPkg.price+' ج.م
+راجع لوحة الأدمن ✅');
+    document.getElementById('mWaLink').href='https://wa.me/201288588648?text='+waMsg;
+    document.getElementById('mWaNotify').style.display='block';
+    showToast('✅ تم الإرسال! اضغط واتساب لإبلاغ الأدمن');
+    // reset
+    document.getElementById('mPaySteps').style.display='none';
+    document.querySelectorAll('.mpkg').forEach(p=>p.classList.remove('sel'));
+    mSelPkg=null; mReceiptB64=null;
+    const pr=document.getElementById('mReceiptPreview'); if(pr){pr.style.display='none';}
+    const rf=document.getElementById('mReceiptFile'); if(rf) rf.value='';
+    const ra=document.getElementById('mReceiptArea');
+    if(ra){ra.classList.remove('ok');ra.querySelector('.mupload-txt').textContent='اضغط لرفع السكرين';}
+    const ph=document.getElementById('mPayPhone'); if(ph) ph.value='';
+    loadMerchPayHistory();
+  }catch(e){showToast('حصل خطأ، تواصل معنا على واتساب');}
+  btn.disabled=false; btn.textContent='إرسال طلب الشحن 🚀';
+}
+async function loadMerchPayHistory(){
+  const {data}=await db.from('payment_requests').select('*')
+    .eq('merchant_email',mMerchant.email).order('created_at',{ascending:false});
+  const list=document.getElementById('mPayHistory');
+  if(!data||data.length===0){list.innerHTML='<div class="empty-state"><div class="eicon">📭</div><p>مفيش مدفوعات سابقة</p></div>';return;}
+  list.innerHTML=data.map(p=>`
+    <div class="mpay-item">
+      <div class="mpay-top"><div class="mpay-pkg">📦 ${p.package_name} · ${p.package_offers} عروض</div><div class="mpay-amt">${p.amount} ج.م</div></div>
+      <div class="mpay-date">📅 ${new Date(p.created_at).toLocaleDateString('ar-EG')}</div>
+      <span class="mstatus mstatus-${p.status==='pending'?'pending':p.status==='approved'?'approved':'rejected'}">${p.status==='pending'?'⏳ قيد المراجعة':p.status==='approved'?'✅ تم الشحن':'❌ مرفوض'}</span>
+    </div>`).join('');
+}
+
+// ── CHANGE PASSWORD ───────────────────────────
+async function mChangePass(){
+  const o=document.getElementById('mOldPass').value.trim();
+  const n=document.getElementById('mNewPass').value.trim();
+  const c=document.getElementById('mConfPass').value.trim();
+  if(!o||!n||!c)return showToast('ملِّي كل الحقول');
+  if(o!==mMerchant.password)return showToast('كلمة المرور الحالية غلط ❌');
+  if(n!==c)return showToast('كلمتي المرور مش متطابقتين');
+  if(n.length<4)return showToast('كلمة المرور 4 أحرف على الأقل');
+  const {error}=await db.from('merchants').update({password:n}).eq('id',mMerchant.id);
+  if(error)return showToast('حصل خطأ');
+  mMerchant.password=n; localStorage.setItem('ardak_m',JSON.stringify(mMerchant));
+  showToast('✅ تم تغيير كلمة المرور');
+  ['mOldPass','mNewPass','mConfPass'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ── MERCHANT TAB SWITCH ───────────────────────
+function showMerchTab(tab, el){
+  ['home','add','pay','settings'].forEach(t=>{const p=document.getElementById('mpage-'+t);if(p)p.style.display='none';});
+  document.querySelectorAll('.mbtab').forEach(b=>b.classList.remove('active'));
+  const pg=document.getElementById('mpage-'+tab); if(pg) pg.style.display='block';
+  if(el) el.classList.add('active');
+  if(tab==='home') loadMerchantDashboard();
+  if(tab==='pay') loadMerchPayHistory();
+  if(tab==='add'){
+    const q=mMerchant.offers_quota??3, u=mMerchant.offers_used??0;
+    const w=document.getElementById('mAddWarn');
+    if(w) w.innerHTML=u>=q
+      ?'<div class="malert malert-err">⚠️ خلص رصيدك! اشحن من تبويب 💳</div>'
+      :'<div class="malert malert-ok">✅ تقدر تضيف '+(q-u)+' عرض تاني</div>';
+  }
+}
+
+// ── APPLY ──────────────────────────────────────
+function previewShopPhoto(e){
+  const f=e.target.files[0]; if(!f)return;
+  if(f.size>5*1024*1024){showToast('الصورة كبيرة أوي');return;}
+  const r=new FileReader();
+  r.onload=ev=>{
+    mShopB64=ev.target.result;
+    const p=document.getElementById('mShopPhotoPreview'); p.src=mShopB64; p.style.display='block';
+    const a=document.getElementById('shopPhotoArea'); a.classList.add('ok');
+    a.querySelector('.mupload-txt').textContent='✅ تم اختيار الصورة';
+  };
+  r.readAsDataURL(f);
+}
+
+async function submitMerchantApplication(){
+  const name=document.getElementById('apName').value.trim();
+  const owner=document.getElementById('apOwner').value.trim();
+  const type=document.getElementById('apType').value;
+  const phone=document.getElementById('apPhone').value.trim();
+  if(!name||!owner||!type||!phone){
+    document.getElementById('apError').style.display='block';return;
+  }
+  document.getElementById('apError').style.display='none';
+  const btn=document.getElementById('apSubmitBtn');
+  btn.disabled=true; btn.textContent='⏳ جاري الإرسال...';
+  try{
+    let photoUrl=null;
+    if(mShopB64){
+      try{
+        const fname='shop_photos/'+Date.now()+'.jpg';
+        const blob=await(await fetch(mShopB64)).blob();
+        const {error:ue}=await db.storage.from('receipts').upload(fname,blob,{contentType:'image/jpeg',upsert:true});
+        if(!ue){const {data:ud}=db.storage.from('receipts').getPublicUrl(fname);photoUrl=ud.publicUrl;}
+      }catch(_){}
+    }
+    const {error}=await db.from('merchant_requests').insert({
+      shop_name:name, owner_name:owner,
+      business_type:type,
+      phone,
+      address:document.getElementById('apAddr').value.trim(),
+      description:document.getElementById('apDesc').value.trim(),
+      shop_photo_url:photoUrl||mShopB64,
+      status:'pending'
+    });
+    if(error)throw error;
+    document.getElementById('applyForm').style.display='none';
+    document.getElementById('applySuccess').style.display='block';
+    const waMsg=encodeURIComponent('🆕 طلب تسجيل تاجر جديد!\n🏪 '+name+'\n👤 '+owner+'\n📞 '+phone+'\nراجع لوحة الأدمن ✅');
+    setTimeout(()=>window.open('https://wa.me/201288588648?text='+waMsg,'_blank'),1500);
+  }catch(e){showToast('حصل خطأ، حاول تاني');}
+  btn.disabled=false; btn.textContent='إرسال الطلب 🚀';
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// END MERCHANT PORTAL
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 // Code protection
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('keydown',e=>{
