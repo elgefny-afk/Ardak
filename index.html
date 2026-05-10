@@ -416,6 +416,22 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
 .city-soon{color:var(--mutedc);cursor:default;}
 .onesignal-customlink-container{padding:12px 16px;border-top:1px solid var(--borderc);}
 .onesignal-customlink-container .onesignal-customlink-subscribe{width:100%!important;background:linear-gradient(135deg,#8b5cf6,#6d28d9)!important;color:#fff!important;border:none!important;padding:11px!important;border-radius:12px!important;font-family:'Cairo',sans-serif!important;font-size:13px!important;font-weight:700!important;cursor:pointer!important;text-align:center!important;}
+/* ══ BANNER SLIDER ══ */
+#bannerSlider{width:calc(100% - 24px);overflow:hidden;position:relative;margin:10px 12px 6px;border-radius:16px;background:transparent;box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.bsl-track{display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1);will-change:transform;}
+.bsl-slide{min-width:100%;position:relative;cursor:pointer;overflow:hidden;border-radius:16px;}
+.bsl-slide img{width:100%;height:130px;object-fit:cover;display:block;}
+.bsl-slide .bsl-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 55%);border-radius:16px;}
+.bsl-slide .bsl-caption{position:absolute;bottom:10px;right:12px;left:12px;color:#fff;}
+.bsl-slide .bsl-title{font-size:14px;font-weight:900;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.6);}
+.bsl-slide .bsl-sub{font-size:11px;opacity:.85;margin-top:2px;}
+.bsl-dots{display:flex;justify-content:center;gap:5px;padding:5px 0 2px;}
+.bsl-dot{width:5px;height:5px;border-radius:50%;background:var(--borderc);transition:all .3s;cursor:pointer;}
+.bsl-dot.active{background:var(--orange);width:14px;border-radius:3px;}
+/* ══ VIP OFFERS ══ */
+.offer-card.vip,.offer-item.vip,[data-vip="true"]{border:2px solid #f59e0b!important;background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(251,191,36,.04))!important;position:relative;}
+.vip-badge{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;z-index:2;box-shadow:0 2px 8px rgba(245,158,11,.4);}
+.offer-card.vip .offer-img,.offer-item.vip img{border:2px solid #f59e0b;}
 </style>
 <!-- OneSignal Push Notifications -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -503,6 +519,9 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
     <button class="hbtn" onclick="openMenu()">☰</button>
   </div>
 </header>
+
+<!-- BANNER SLIDER -->
+<div id="bannerSlider"></div>
 
 <!-- OFFERS -->
 
@@ -1052,6 +1071,146 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
 </div>
 
 <div class="toast"  id="toast"></div>
+
+<!-- VIP PATCH: تطبيق ستايل VIP على الكروت تلقائياً -->
+<script>
+(function(){
+  async function applyVip(){
+    if(typeof db==='undefined'){setTimeout(applyVip,600);return;}
+    try{
+      const {data}=await db.from('offers').select('id').eq('vip',true);
+      if(!data||!data.length)return;
+      const vipIds=new Set(data.map(o=>String(o.id)));
+
+      function markCards(){
+        // أي كارت فيه data-id أو data-offer-id يتطبق عليه الستايل
+        document.querySelectorAll('[data-id],[data-offer-id]').forEach(card=>{
+          const id=String(card.dataset.id||card.dataset.offerId||'');
+          if(!vipIds.has(id))return;
+          card.classList.add('vip');
+          card.style.border='2px solid #f59e0b';
+          card.style.background='linear-gradient(135deg,rgba(245,158,11,.09),rgba(251,191,36,.04))';
+          card.style.position='relative';
+          if(!card.querySelector('.vip-badge')){
+            const b=document.createElement('div');
+            b.className='vip-badge';
+            b.textContent='★ VIP';
+            b.style.cssText='position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:9px;font-weight:900;padding:3px 8px;border-radius:20px;z-index:10;box-shadow:0 2px 8px rgba(245,158,11,.5);font-family:Cairo,sans-serif;pointer-events:none;';
+            card.prepend(b);
+          }
+          // أي img جوا الكارت ده
+          const img=card.querySelector('img');
+          if(img){img.style.border='2px solid #f59e0b';img.style.borderRadius='inherit';}
+        });
+      }
+
+      markCards();
+      // راقب لو في كروت جديدة بتتضاف ديناميكياً
+      const list=document.getElementById('offersList')||document.body;
+      new MutationObserver(markCards).observe(list,{childList:true,subtree:true});
+    }catch(e){}
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(applyVip,800));}
+  else{setTimeout(applyVip,800);}
+})();
+</script>
+
+<!-- SAVED OFFERS PATCH: عرض الاسم والصورة بدل الأكواد -->
+<script>
+(function(){
+  function patchSaved(){
+    if(typeof db==='undefined'||typeof window.showSavedPanel!=='function'){
+      setTimeout(patchSaved,600);return;
+    }
+    const _orig=window.showSavedPanel;
+    window.showSavedPanel=async function(){
+      _orig();
+      // بعد ما بانل الـ saved اتفتح، بنجيب الـ offers من Supabase ونعرضهم صح
+      setTimeout(async()=>{
+        const panel=document.querySelector('.saved-panel')||document.getElementById('savedPanel')||document.getElementById('sec-saved');
+        if(!panel)return;
+        const savedRaw=localStorage.getItem('savedOffers')||localStorage.getItem('saved')||'[]';
+        let ids=[];
+        try{ids=JSON.parse(savedRaw);}catch(e){return;}
+        if(!ids.length)return;
+        // لو الـ ids أرقام → جيب التفاصيل
+        const numIds=ids.filter(x=>!isNaN(Number(x))).map(Number);
+        if(!numIds.length)return;
+        try{
+          const {data}=await db.from('offers').select('id,name,shop,image_url,new_price').in('id',numIds);
+          if(!data||!data.length)return;
+          const map={};data.forEach(o=>map[o.id]=o);
+          const cards=panel.querySelectorAll('[data-id],[data-offer-id]');
+          cards.forEach(card=>{
+            const id=Number(card.dataset.id||card.dataset.offerId);
+            const o=map[id];if(!o)return;
+            const img=card.querySelector('img');
+            if(img&&o.image_url)img.src=o.image_url;
+            const nm=card.querySelector('.saved-name,.offer-name,.card-title,h3,h4');
+            if(nm&&o.name)nm.textContent=o.name;
+            const sh=card.querySelector('.saved-shop,.offer-shop,.card-sub,p');
+            if(sh&&o.shop)sh.textContent=o.shop;
+          });
+        }catch(e){}
+      },300);
+    };
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',patchSaved);}
+  else{setTimeout(patchSaved,800);}
+})();
+</script>
+
+<!-- BANNER SLIDER JS -->
+<script>
+(function(){
+  let bslCurrent=0,bslTotal=0,bslTimer=null;
+  async function loadBannerSlider(){
+    const wrap=document.getElementById('bannerSlider');
+    if(!wrap)return;
+    try{
+      const {data}=await db.from('banner_ads').select('*').eq('active',true).order('sort_order',{ascending:true});
+      if(!data||!data.length){wrap.style.display='none';return;}
+      bslTotal=data.length;
+      wrap.innerHTML=`<div class="bsl-track" id="bslTrack">${data.map((b,i)=>`
+        <div class="bsl-slide" onclick="${b.link_url?`window.open('${b.link_url}','_blank')`:''}">
+          ${b.image_url
+            ?`<img src="${b.image_url}" alt="${b.title||''}" loading="${i===0?'eager':'lazy'}">`
+            :`<div style="width:100%;height:160px;background:${b.bg_color||'#FF6B1A'};display:flex;align-items:center;justify-content:center;font-size:40px;">🖼️</div>`}
+          <div class="bsl-overlay"></div>
+          ${(b.title||b.subtitle)?`<div class="bsl-caption">${b.title?`<div class="bsl-title">${b.title}</div>`:''}${b.subtitle?`<div class="bsl-sub">${b.subtitle}</div>`:''}</div>`:''}
+        </div>`).join('')}</div>
+        ${bslTotal>1?`<div class="bsl-dots" id="bslDots">${data.map((_,i)=>`<div class="bsl-dot${i===0?' active':''}" onclick="bslGo(${i})"></div>`).join('')}</div>`:''}`;
+      if(bslTotal>1){
+        const track=document.getElementById('bslTrack');
+        let sx=0;
+        track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;clearInterval(bslTimer);},{passive:true});
+        track.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){dx<0?bslNext():bslPrev();}bslTimer=setInterval(bslNext,3500);},{passive:true});
+        bslTimer=setInterval(bslNext,3500);
+      }
+    }catch(e){const w=document.getElementById('bannerSlider');if(w)w.style.display='none';}
+  }
+  window.bslGo=function(n){
+    bslCurrent=n;
+    const t=document.getElementById('bslTrack');
+    if(t)t.style.transform=`translateX(${n*100}%)`;
+    document.querySelectorAll('.bsl-dot').forEach((d,i)=>d.classList.toggle('active',i===n));
+  };
+  window.bslNext=function(){bslGo((bslCurrent+1)%bslTotal);};
+  window.bslPrev=function(){bslGo((bslCurrent-1+bslTotal)%bslTotal);};
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',loadBannerSlider);}
+  else{setTimeout(loadBannerSlider,500);}
+  // إظهار السلايدر على الصفحة الرئيسية فقط
+  document.addEventListener('DOMContentLoaded',function(){
+    const slider=document.getElementById('bannerSlider');
+    if(!slider)return;
+    const orig=window.switchTab;
+    window.switchTab=function(tab){
+      if(orig)orig(tab);
+      slider.style.display=(tab==='offers'||tab===undefined)?'':'none';
+    };
+  });
+})();
+</script>
 
 <!-- BOTTOM NAV -->
 <div class="bnav">
