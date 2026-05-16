@@ -510,7 +510,7 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
     <button class="hbtn" id="themeBtn" onclick="toggleTheme()" title="تغيير المظهر">
       <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" id="themeIcon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
     </button>
-    <button class="hbtn" id="saveBtn" onclick="showSavedPanel()" title="المحفوظات">
+    <button class="hbtn" id="saveBtn" onclick="window.ardakShowSaved?ardakShowSaved():showSavedPanel()" title="المحفوظات">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
     </button>
     <button class="hbtn" id="loginBtn" onclick="handleLoginBtn()" title="تسجيل الدخول">
@@ -1070,6 +1070,187 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
   </div>
 </div>
 
+<!-- ══ SAVED PANEL OVERLAY ══ -->
+<div id="ardakSavedOverlay" onclick="if(event.target===this)closeSavedOverlay()" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);"></div>
+<div id="ardakSavedPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:901;background:var(--cardbg,#1a1a2e);border-radius:22px 22px 0 0;max-height:82vh;overflow-y:auto;padding-bottom:calc(72px + env(safe-area-inset-bottom));box-shadow:0 -8px 40px rgba(0,0,0,.5);">
+  <div style="position:sticky;top:0;background:var(--cardbg,#1a1a2e);padding:14px 16px 10px;border-bottom:1px solid var(--borderc,rgba(255,255,255,.08));z-index:2;border-radius:22px 22px 0 0;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+      <span style="font-size:15px;font-weight:900;color:var(--fg,#fff);">المحفوظات</span>
+      <span id="ardakSavedCount" style="background:rgba(255,107,26,.2);color:#FF6B1A;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;"></span>
+    </div>
+    <button onclick="closeSavedOverlay()" style="background:rgba(255,255,255,.08);border:none;color:var(--fg,#fff);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">✕</button>
+  </div>
+  <div id="ardakSavedList" style="padding:12px 14px;"></div>
+</div>
+
+<style>
+.sv-card{display:flex;align-items:center;gap:12px;background:var(--c2,rgba(255,255,255,.05));border:1px solid var(--borderc,rgba(255,255,255,.08));border-radius:14px;padding:10px;margin-bottom:9px;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.sv-card:active{transform:scale(.97);opacity:.85;}
+.sv-img{width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;background:rgba(255,107,26,.1);}
+.sv-img-ph{width:60px;height:60px;border-radius:10px;flex-shrink:0;background:rgba(255,107,26,.12);display:flex;align-items:center;justify-content:center;font-size:26px;}
+.sv-info{flex:1;min-width:0;}
+.sv-name{font-size:13px;font-weight:800;color:var(--fg,#fff);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sv-sub{font-size:11px;color:var(--mutedc,rgba(255,255,255,.5));margin-top:2px;}
+.sv-type{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;margin-top:4px;display:inline-block;}
+.sv-offer{background:rgba(255,107,26,.15);color:#FF6B1A;}
+.sv-resto{background:rgba(34,197,94,.15);color:#22c55e;}
+.sv-cafe{background:rgba(139,92,246,.15);color:#8b5cf6;}
+.sv-delivery{background:rgba(59,130,246,.15);color:#3b82f6;}
+.sv-doctor{background:rgba(236,72,153,.15);color:#ec4899;}
+.sv-arrow{color:var(--mutedc,rgba(255,255,255,.3));font-size:16px;flex-shrink:0;}
+</style>
+
+<script>
+(function(){
+  function closeSavedOverlay(){
+    document.getElementById('ardakSavedOverlay').style.display='none';
+    document.getElementById('ardakSavedPanel').style.display='none';
+  }
+  window.closeSavedOverlay=closeSavedOverlay;
+
+  // قراءة كل المحفوظات من localStorage
+  function readSavedIds(){
+    const seen=new Set();const all=[];
+    // عروض — أرقام مباشرة
+    try{const raw=localStorage.getItem('ardak_saved');if(raw){const arr=JSON.parse(raw);if(Array.isArray(arr))arr.forEach(x=>{const n=Number(x);if(n&&!isNaN(n)&&!seen.has('o'+n)){seen.add('o'+n);all.push({id:n,key:'ardak_saved',source:'offers'});}});}}catch(e){}
+    // أماكن — صيغة r_123 أو c_456
+    try{const raw=localStorage.getItem('ardak_saved_places');if(raw){const arr=JSON.parse(raw);if(Array.isArray(arr))arr.forEach(x=>{const s=String(x);const m=s.match(/^[rc]_(\d+)$/);const n=m?Number(m[1]):Number(s);if(n&&!isNaN(n)){const k='p'+n;if(!seen.has(k)){seen.add(k);all.push({id:n,key:'ardak_saved_places',source:'restaurants'});}}});}}catch(e){}
+    // مفاتيح قديمة
+    ['savedOffers','saved','favorites','bookmarks','savedItems'].forEach(k=>{try{const raw=localStorage.getItem(k);if(!raw)return;const arr=JSON.parse(raw);if(Array.isArray(arr))arr.forEach(x=>{const n=Number(x);if(n&&!isNaN(n)&&!seen.has('o'+n)){seen.add('o'+n);all.push({id:n,key:k,source:'offers'});}});}catch(e){}});
+    return all;
+  }
+
+  function typeLabel(t){
+    if(!t)return{label:'عرض',cls:'sv-offer',em:'🏷️'};
+    const s=String(t).toLowerCase();
+    if(s.includes('كافيه')||s.includes('cafe')||s.includes('coffee'))return{label:'كافيه',cls:'sv-cafe',em:'☕'};
+    if(s.includes('مطعم')||s.includes('resto')||s.includes('restaurant'))return{label:'مطعم',cls:'sv-resto',em:'🍽️'};
+    if(s.includes('دليفري')||s.includes('delivery'))return{label:'دليفري',cls:'sv-delivery',em:'🛵'};
+    if(s.includes('طبيب')||s.includes('doctor')||s.includes('دكتور'))return{label:'طبيب',cls:'sv-doctor',em:'🏥'};
+    return{label:t,cls:'sv-offer',em:'🏷️'};
+  }
+
+  function openItem(item){
+    closeSavedOverlay();
+    const fns=['openOffer','openResto','openResto','viewOffer','showOffer','openItem','showItem','openCard'];
+    for(const fn of fns){if(typeof window[fn]==='function'){try{window[fn](item.id,item);return;}catch(e){}}}
+    // fallback: روح للتبويب المناسب
+    const tab=item._tab||'offers';
+    if(typeof window.switchTab==='function')window.switchTab(tab);
+  }
+
+  async function showNewSavedPanel(){
+    document.getElementById('ardakSavedOverlay').style.display='block';
+    document.getElementById('ardakSavedPanel').style.display='block';
+    const list=document.getElementById('ardakSavedList');
+    const countEl=document.getElementById('ardakSavedCount');
+    list.innerHTML='<div style="text-align:center;padding:30px 0;color:var(--mutedc,rgba(255,255,255,.4));"><div style="font-size:30px;">⏳</div><div style="margin-top:6px;font-size:12px;">جاري التحميل...</div></div>';
+
+    const saved=readSavedIds();
+    if(!saved.length){
+      countEl.textContent='0';
+      list.innerHTML='<div style="text-align:center;padding:40px 0;color:var(--mutedc,rgba(255,255,255,.3));"><div style="font-size:50px;">🔖</div><div style="margin-top:10px;font-size:13px;font-weight:700;">مفيش حاجة محفوظة لسه</div><div style="font-size:11px;margin-top:4px;">اضغط على القلب أو البوكمارك على أي عرض أو مطعم</div></div>';
+      return;
+    }
+
+    const offerIds=saved.filter(s=>s.source==='offers').map(s=>s.id);
+    const placeIds=saved.filter(s=>s.source==='restaurants').map(s=>s.id);
+    const allIds=[...new Set([...offerIds,...placeIds])];
+    let items=[];
+    try{
+      const [oRes,rRes,dRes,docRes]=await Promise.all([
+        offerIds.length?db.from('offers').select('id,name,shop,image_url,new_price,old_price,category,contact_phone').in('id',offerIds):Promise.resolve({data:[]}),
+        placeIds.length?db.from('restaurants').select('id,name,type,image_url,status,address').in('id',placeIds):Promise.resolve({data:[]}),
+        allIds.length?db.from('delivery').select('id,name,area,image_url,phone').in('id',allIds):Promise.resolve({data:[]}),
+        allIds.length?db.from('doctors').select('id,name,specialty,image_url,phone').in('id',allIds):Promise.resolve({data:[]})
+      ]);
+
+      if(oRes.data) oRes.data.forEach(o=>items.push({...o,_source:'offers',_tab:'offers'}));
+      if(rRes.data) rRes.data.forEach(r=>{
+        if(!items.find(x=>x.id===r.id)) items.push({...r,_source:'restaurants',_tab:r.type&&(r.type.includes('كافيه')||r.type.includes('cafe'))?'cafes':'resto'});
+      });
+      if(dRes.data) dRes.data.forEach(d=>{if(!items.find(x=>x.id===d.id)) items.push({...d,_source:'delivery',_tab:'services'});});
+      if(docRes.data) docRes.data.forEach(d=>{if(!items.find(x=>x.id===d.id)) items.push({...d,_source:'doctors',_tab:'doctors'});});
+    }catch(e){
+      list.innerHTML='<div style="text-align:center;padding:20px;color:#ef4444;">❌ فشل التحميل<br><small>'+e.message+'</small></div>';
+      return;
+    }
+
+    countEl.textContent=items.length||saved.length;
+
+    if(!items.length){
+      list.innerHTML='<div style="text-align:center;padding:30px 0;color:var(--mutedc,rgba(255,255,255,.4));"><div style="font-size:40px;">🤷</div><div style="margin-top:8px;font-size:12px;">البيانات اتحذفت أو مش موجودة</div></div>';
+      return;
+    }
+
+    list.innerHTML=items.map(item=>{
+      const src=item._source;
+      let name='',sub='',typeStr='',imgUrl=item.image_url||'';
+      if(src==='offers'){
+        name=item.name||'عرض';
+        sub=item.shop||'';
+        typeStr=item.category||'عرض';
+      } else if(src==='restaurants'){
+        name=item.name||'مكان';
+        sub=item.address||item.status||'';
+        typeStr=item.type||'مطعم';
+      } else if(src==='delivery'){
+        name=item.name||'دليفري';
+        sub=item.area||'';
+        typeStr='دليفري';
+      } else if(src==='doctors'){
+        name=item.name||'طبيب';
+        sub=item.specialty||'';
+        typeStr='طبيب';
+      }
+      const t=typeLabel(typeStr);
+      const imgHtml=imgUrl
+        ?`<img class="sv-img" src="${imgUrl}" alt="${name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="sv-img-ph" style="display:none">${t.em}</div>`
+        :`<div class="sv-img-ph">${t.em}</div>`;
+      const priceHtml=src==='offers'&&item.new_price?`<span style="color:#FF6B1A;font-size:10px;font-weight:800;margin-right:4px;">${item.new_price} ج</span>`:'';
+      return `<div class="sv-card" onclick='openItem(${JSON.stringify(item)})' data-id="${item.id}">
+        ${imgHtml}
+        <div class="sv-info">
+          <div class="sv-name">${name}</div>
+          <div class="sv-sub">${sub}</div>
+          <div>${priceHtml}<span class="sv-type ${t.cls}">${t.label}</span></div>
+        </div>
+        <div class="sv-arrow">›</div>
+      </div>`;
+    }).join('');
+
+    window.openItem=function(item){
+      closeSavedOverlay();
+      const fns=['openOffer','viewOffer','showOffer','openResto','showResto','openCard','showCard'];
+      for(const fn of fns){if(typeof window[fn]==='function'){try{window[fn](item.id,item);return;}catch(e){}}}
+      if(typeof window.switchTab==='function')window.switchTab(item._tab||'offers');
+    };
+  }
+
+  // تصدير global مباشر — بيشتغل حتى لو التايمينج تأخر
+  window.ardakShowSaved=showNewSavedPanel;
+  window.showSavedPanel=showNewSavedPanel;
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){
+      window.ardakShowSaved=showNewSavedPanel;
+      window.showSavedPanel=showNewSavedPanel;
+      const btn=document.getElementById('saveBtn');
+      if(btn){btn.onclick=function(){showNewSavedPanel();return false;};}
+    });
+  } else {
+    const btn=document.getElementById('saveBtn');
+    if(btn){btn.onclick=function(){showNewSavedPanel();return false;};}
+  }
+  setTimeout(function(){
+    window.ardakShowSaved=showNewSavedPanel;
+    window.showSavedPanel=showNewSavedPanel;
+    const btn=document.getElementById('saveBtn');
+    if(btn){btn.onclick=function(){showNewSavedPanel();return false;};}
+  },800);
+})();
+</script>
+
 <div class="toast"  id="toast"></div>
 
 <!-- VIP PATCH: تطبيق ستايل VIP على الكروت تلقائياً -->
@@ -1184,7 +1365,7 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
         const track=document.getElementById('bslTrack');
         let sx=0;
         track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;clearInterval(bslTimer);},{passive:true});
-        track.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){dx<0?bslNext():bslPrev();}bslTimer=setInterval(bslNext,3500);},{passive:true});
+        track.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){dx>0?bslNext():bslPrev();}bslTimer=setInterval(bslNext,3500);},{passive:true});
         bslTimer=setInterval(bslNext,3500);
       }
     }catch(e){const w=document.getElementById('bannerSlider');if(w)w.style.display='none';}
@@ -1286,31 +1467,48 @@ function showSavedPanel(){
   panel.style.display='flex';
   showSavedTab('offers');
 }
-function showSavedTab(tab){
+async function showSavedTab(tab){
   document.getElementById('svTabOffers').classList.toggle('active',tab==='offers');
   document.getElementById('svTabPlaces').classList.toggle('active',tab==='places');
   const content=document.getElementById('savedContent');
   if(tab==='offers'){
     const sv=JSON.parse(localStorage.getItem('ardak_saved')||'[]');
-    const saved=allOffers.filter(o=>sv.includes(o.id));
+    if(!sv.length){content.innerHTML='<div style="text-align:center;padding:30px;color:var(--mutedc);font-size:13px;">مفيش عروض محفوظة<br><span style="font-size:11px;">اضغط حفظ على أي عرض ليظهر هنا</span></div>';return;}
+    let saved=(allOffers&&allOffers.length)?allOffers.filter(o=>sv.map(Number).includes(Number(o.id))):[];
+    if(!saved.length){
+      content.innerHTML='<div style="text-align:center;padding:20px;color:var(--mutedc);font-size:12px;">جاري التحميل...</div>';
+      try{const {data}=await db.from('offers').select('id,name,shop,image_url,new_price,category,vip').in('id',sv.map(Number));saved=data||[];}catch(e){}
+    }
     if(!saved.length){content.innerHTML='<div style="text-align:center;padding:30px;color:var(--mutedc);font-size:13px;">مفيش عروض محفوظة</div>';return;}
-    content.innerHTML=saved.map(o=>`
-      <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--cardbg2);border-radius:12px;margin-bottom:8px;cursor:pointer;" onclick="document.getElementById('savedPanel').style.display='none';openOfferModal(_g(_s(${JSON.stringify(o)})))">
-        <div style="width:52px;height:52px;border-radius:10px;background:#222;overflow:hidden;flex-shrink:0;">${o.image_url?'<img src="'+o.image_url+'" style="width:100%;height:100%;object-fit:cover;">':''}</div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:13px;font-weight:800;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${o.name}</div>
-          <div style="font-size:11px;color:var(--mutedc);">${o.shop}</div>
-          ${o.new_price?'<div style="font-size:14px;font-weight:900;color:var(--orange);">'+o.new_price+' ج</div>':''}
-        </div>
-      </div>`).join('');
+    content.innerHTML=saved.map(o=>
+      '<div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--cardbg2);border-radius:12px;margin-bottom:8px;cursor:pointer;" onclick="document.getElementById(\'savedPanel\').style.display=\'none\';openOfferModal(_g(_s('+JSON.stringify(o)+')))">'
+      +'<div style="width:52px;height:52px;border-radius:10px;background:#222;overflow:hidden;flex-shrink:0;">'+(o.image_url?'<img src="'+o.image_url+'" style="width:100%;height:100%;object-fit:cover;">':'')
+      +'</div><div style="flex:1;min-width:0;">'
+      +'<div style="font-size:13px;font-weight:800;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+o.name+'</div>'
+      +'<div style="font-size:11px;color:var(--mutedc);">'+( o.shop||'')+'</div>'
+      +(o.new_price?'<div style="font-size:14px;font-weight:900;color:var(--orange);">'+o.new_price+' ج</div>':'')
+      +'</div></div>'
+    ).join('');
   } else {
     const sv=JSON.parse(localStorage.getItem('ardak_saved_places')||'[]');
-    if(!sv.length){content.innerHTML='<div style="text-align:center;padding:30px;color:var(--mutedc);font-size:13px;">مفيش أماكن محفوظة</div>';return;}
-    content.innerHTML=sv.map(id=>`
-      <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--cardbg2);border-radius:12px;margin-bottom:8px;">
-        <div style="width:40px;height:40px;border-radius:10px;background:var(--og);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="var(--orange)" width="20" height="20"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
-        <div style="font-size:13px;font-weight:700;">${id}</div>
-      </div>`).join('');
+    if(!sv.length){content.innerHTML='<div style="text-align:center;padding:30px;color:var(--mutedc);font-size:13px;">مفيش أماكن محفوظة<br><span style="font-size:11px;">اضغط حفظ على أي مطعم أو كافيه</span></div>';return;}
+    content.innerHTML='<div style="text-align:center;padding:20px;color:var(--mutedc);font-size:12px;">جاري التحميل...</div>';
+    try{
+      const numIds=[...new Set(sv.map(pid=>Number(pid.replace(/^[rc]_/,''))))].filter(n=>!isNaN(n)&&n>0);
+      const {data}=await db.from('restaurants').select('id,name,type,image_url,address').in('id',numIds);
+      const map={};(data||[]).forEach(r=>{map[r.id]=r;});
+      const html=sv.map(pid=>{
+        const numId=Number(pid.replace(/^[rc]_/,''));
+        const r=map[numId];
+        if(!r)return '';
+        const isC=pid.startsWith('c_');
+        return '<div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--cardbg2);border-radius:12px;margin-bottom:8px;">'
+          +'<div style="width:52px;height:52px;border-radius:10px;background:#222;overflow:hidden;flex-shrink:0;">'+(r.image_url?'<img src="'+r.image_url+'" style="width:100%;height:100%;object-fit:cover;">':'<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:26px;">'+(isC?'☕':'🍽️')+'</div>')+'</div>'
+          +'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:800;margin-bottom:2px;">'+r.name+'</div>'
+          +'<div style="font-size:11px;color:var(--mutedc);">'+( r.type||'')+( r.address?' · '+r.address:'')+'</div></div></div>';
+      }).join('');
+      content.innerHTML=html||'<div style="text-align:center;padding:30px;color:var(--mutedc);font-size:13px;">مفيش أماكن محفوظة</div>';
+    }catch(e){content.innerHTML='<div style="text-align:center;padding:30px;color:var(--mutedc);font-size:13px;">مفيش أماكن محفوظة</div>';}
   }
 }
 
@@ -1767,11 +1965,10 @@ function goSlide(n){
 function openZoom(src){const m=document.getElementById('zoomModal');if(m){document.getElementById('zoomImg').src=src;m.style.display='flex';}}
 function closeZoom(){const m=document.getElementById('zoomModal');if(m)m.style.display='none';}
 function toggleSave(id,btn){
-  if(!currentUser){showToast('سجّل دخول عشان تحفظ العروض');openAuth();return;}
   const sv=JSON.parse(localStorage.getItem('ardak_saved')||'[]');
   const i=sv.indexOf(id);
-  if(i>-1){sv.splice(i,1);btn.className='om-act';btn.innerHTML='حفظ';}
-  else{sv.push(id);btn.className='om-act saved';btn.innerHTML='محفوظ ✓';}
+  if(i>-1){sv.splice(i,1);btn.className='om-act om-save-btn';btn.style.display='flex';btn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>حفظ';showToast('تم الحذف من المحفوظات');}
+  else{sv.push(id);btn.className='om-act om-save-btn saved';btn.style.display='flex';btn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>محفوظ ✓';showToast('تم الحفظ');}
   localStorage.setItem('ardak_saved',JSON.stringify(sv));
 }
 function dlOffer(url){if(!url||url==='null'){showToast('مفيش صورة');return;}const a=document.createElement('a');a.href=url;a.download='ardak.jpg';a.target='_blank';document.body.appendChild(a);a.click();document.body.removeChild(a);}
@@ -1902,7 +2099,7 @@ function openOfferModal(o){
         +(disc?'<span class="om-disc">'+disc+'%</span>':'')
       +'</div>'
       +'<div class="om-acts">'
-        +'<button class="om-act'+(isSv?' saved':'')+'" id="sbtn'+o.id+'" onclick="toggleSave('+o.id+',this)">'+(isSv?'محفوظ ✓':'حفظ')+'</button>'
+        +'<button class="om-act om-save-btn'+(isSv?' saved':'')+'" id="sbtn'+o.id+'" onclick="toggleSave('+o.id+',this)" style="display:flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="'+(isSv?'currentColor':'none')+'" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'+(isSv?'محفوظ':'حفظ')+'</button>'
         +'<button class="om-act" onclick="dlOffer('+JSON.stringify(o.image_url||null)+')">⬇️ تنزيل</button>'
         +'<button class="om-act" onclick="openShare()">↗️ مشاركة</button>'
       +'</div>'
@@ -1919,12 +2116,19 @@ function openOfferModal(o){
 }
 
 
+
+function _isCafe(r){
+  const t=(r.type||'').replace(/\s/g,'');
+  const n=(r.name||'');
+  return t.includes('كافيه')||t.includes('كافية')||t.includes('cafe')||t.includes('coffee')||
+    n.includes('كافيه')||n.includes('كافية');
+}
 async function loadRestos(){
   const el=document.getElementById('restosList');
   if(!el) return;
   try{
-    const {data,error}=await db.from('restaurants').select('*').not('type','ilike','%كافية%').order('id',{ascending:false});
-    console.log('🍽️ restos:', JSON.stringify(data), JSON.stringify(error));
+    const {data:_allR,error}=await db.from('restaurants').select('*').order('id',{ascending:false});
+    const data=_allR?_allR.filter(r=>!_isCafe(r)):null;
     if(error||!data||!data.length){el.innerHTML='<div class="empty-state"><div class="eicon">🍽️</div><p>مفيش مطاعم دلوقتي</p></div>';return;}
     const saved=JSON.parse(localStorage.getItem('ardak_saved_places')||'[]');
     el.innerHTML=data.map(function(r){
@@ -1941,7 +2145,7 @@ async function loadRestos(){
           +(r.phone?'<div class="rtype">📞 '+r.phone+'</div>':'')
           +'<div class="resto-btns">'
             +(r.menu?'<button class="resto-btn menu-btn" data-rid="'+rid+'" onclick="openMenu_r(this)">📋 المنيو</button>':'')
-            +'<button class="resto-btn save-btn" data-pid="'+pid+'" onclick="toggleSavePlace(this)">'+(isSaved?'✅':'🔖')+'</button>'
+            +'<button class="resto-btn save-btn'+(isSaved?' saved':'')+' data-pid="'+pid+'" onclick="toggleSavePlace(this)" style="padding:6px 10px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="'+(isSaved?'#FF6B1A':'none')+'" stroke="'+(isSaved?'#FF6B1A':'currentColor')+'" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>'
             +(r.phone?'<button class="resto-btn call-btn" data-tel="tel:'+r.phone+'" onclick="window.location=this.dataset.tel">📞</button>':'')
           +'</div>'
         +'</div>'
@@ -1955,8 +2159,8 @@ async function loadCafes(){
   const el=document.getElementById('cafesList');
   if(!el) return;
   try{
-    const {data,error}=await db.from('restaurants').select('*').ilike('type','%كافية%').order('id',{ascending:false});
-    console.log('☕ cafes:', JSON.stringify(data), JSON.stringify(error));
+    const {data:_allC,error}=await db.from('restaurants').select('*').order('id',{ascending:false});
+    const data=_allC?_allC.filter(_isCafe):null;
     if(error||!data||!data.length){el.innerHTML='<div class="empty-state"><div class="eicon">☕</div><p>مفيش كافيهات دلوقتي</p></div>';return;}
     const saved=JSON.parse(localStorage.getItem('ardak_saved_places')||'[]');
     el.innerHTML=data.map(function(r){
@@ -1986,7 +2190,7 @@ async function loadCafes(){
           +(r.address?'<div class="rtype">📍 '+r.address+'</div>':'')
           +(r.phone?'<div class="rtype">📞 '+r.phone+'</div>':'')
           +'<div class="resto-btns">'
-            +'<button class="resto-btn save-btn" data-pid="'+pid+'" onclick="toggleSavePlace(this)">'+(isSaved?'✅':'🔖')+'</button>'
+            +'<button class="resto-btn save-btn'+(isSaved?' saved':'')+' data-pid="'+pid+'" onclick="toggleSavePlace(this)" style="padding:6px 10px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="'+(isSaved?'#FF6B1A':'none')+'" stroke="'+(isSaved?'#FF6B1A':'currentColor')+'" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>'
             +(r.phone?'<button class="resto-btn call-btn" data-tel="tel:'+r.phone+'" onclick="window.location=this.dataset.tel">📞</button>':'')
           +'</div>'
         +'</div>'
@@ -2000,13 +2204,13 @@ function toggleSavePlace(btn){
   const id=btn.getAttribute('data-pid');
   const sv=JSON.parse(localStorage.getItem('ardak_saved_places')||'[]');
   const i=sv.indexOf(id);
-  if(i>-1){sv.splice(i,1);btn.textContent='🔖';showToast('تم الحذف من المحفوظات');}
-  else{sv.push(id);btn.textContent='✅';showToast('تم الحفظ');}
+  if(i>-1){sv.splice(i,1);btn.classList.remove('saved');btn.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>';showToast('تم الحذف من المحفوظات');}
+  else{sv.push(id);btn.classList.add('saved');btn.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="#FF6B1A" stroke="#FF6B1A" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>';showToast('تم الحفظ');}
   localStorage.setItem('ardak_saved_places',JSON.stringify(sv));
 }
 
 function openRestoModal(r){
-  const pid=(r.type==='كافيه'?'c_':'r_')+r.id;
+  const pid=(_isCafe(r)?'c_':'r_')+r.id;
   const saved=JSON.parse(localStorage.getItem('ardak_saved_places')||'[]');
   const isSaved=saved.includes(pid);
   const phoneLink=r.phone?'<button class="om-act" onclick="window.location=this.dataset.tel" data-tel="tel:'+r.phone+'">📞 اتصال</button>':'';
@@ -2018,7 +2222,7 @@ function openRestoModal(r){
       +(r.address?'<div class="om-shop">📍 '+r.address+'</div>':'')
       +(r.phone?'<div class="om-shop">📞 '+r.phone+'</div>':'')
       +'<div class="om-acts">'
-        +'<button class="om-act'+(isSaved?' saved':'')+'" data-pid="'+pid+'" onclick="toggleSavePlaceById(this)">'+(isSaved?'محفوظ ✓':'🔖 حفظ على الجهاز')+'</button>'
+        +'<button class="om-act'+(isSaved?' saved':'')+' mod-save" style="display:flex;align-items:center;gap:5px;" data-pid="'+pid+'" onclick="toggleSavePlaceById(this)">'+(isSaved?'<svg viewBox="0 0 24 24" width="14" height="14" fill="#FF6B1A" stroke="#FF6B1A" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> محفوظ':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> حفظ')+'</button>'
         +phoneLink
         +'<button class="om-act" onclick="openShare()">↗️ مشاركة</button>'
       +'</div>'
@@ -2031,8 +2235,8 @@ function toggleSavePlaceById(btn){
   const id=btn.getAttribute('data-pid');
   const sv=JSON.parse(localStorage.getItem('ardak_saved_places')||'[]');
   const i=sv.indexOf(id);
-  if(i>-1){sv.splice(i,1);btn.className='om-act';btn.innerHTML='🔖 حفظ على الجهاز';showToast('تم الحذف من المحفوظات');}
-  else{sv.push(id);btn.className='om-act saved';btn.innerHTML='محفوظ ✓';showToast('تم الحفظ');}
+  if(i>-1){sv.splice(i,1);btn.className='om-act mod-save';btn.style.display='flex';btn.style.alignItems='center';btn.style.gap='5px';btn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> حفظ';showToast('تم الحذف من المحفوظات');}
+  else{sv.push(id);btn.className='om-act mod-save saved';btn.style.display='flex';btn.style.alignItems='center';btn.style.gap='5px';btn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="#FF6B1A" stroke="#FF6B1A" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> محفوظ';showToast('تم الحفظ');}
   localStorage.setItem('ardak_saved_places',JSON.stringify(sv));
 }
 
@@ -2276,8 +2480,8 @@ async function submitMerchantOffer(){
   finalError=res.error;
   console.warn('[offer try1]', res.error);
 
-  // Try 2: without is_vip (in case column missing)
-  const payload2={name,shop,description:descVal||null,new_price:parseFloat(np),old_price:oldPVal,category:cat,image_url:imgVal,expires_at:expVal,merchant_id:mMerchant.id||null,status:'pending'};
+  // Try 2: with is_vip included (column must exist in merchant_offers)
+  const payload2={name,shop,description:descVal||null,new_price:parseFloat(np),old_price:oldPVal,category:cat,image_url:imgVal,expires_at:expVal,merchant_id:mMerchant.id||null,is_vip:isVip?true:false,status:'pending'};
   res=await db.from('merchant_offers').insert(payload2);
   if(!res.error){
     btn.disabled=false; btn.textContent='إرسال للمراجعة';
@@ -2287,7 +2491,7 @@ async function submitMerchantOffer(){
   finalError=res.error;
   console.warn('[offer try2]', res.error);
 
-  // Try 3: core columns + image + expires (no merchant_id, no is_vip)
+  // Try 3: core columns only — ultimate fallback (no is_vip, no merchant_id)
   const payload3={name,shop,new_price:parseFloat(np),category:cat,image_url:imgVal,expires_at:expVal,description:descVal||null,old_price:oldPVal,status:'pending'};
   res=await db.from('merchant_offers').insert(payload3);
   if(!res.error){
