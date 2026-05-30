@@ -147,7 +147,7 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
 .delivery{background:var(--og);color:var(--orange);}
 
 /* CAFES SECTION */
-.cafe-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.cafe-grid{display:block;margin-bottom:14px;}
 .cafe-card{background:var(--cardbg);border:1px solid var(--borderc);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .2s;}
 .cafe-card:hover{border-color:var(--orange);transform:translateY(-2px);}
 .cafe-img{height:90px;background:linear-gradient(135deg,#222,#2a2a2a);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden;}
@@ -301,40 +301,53 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
 #zoomModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:600;align-items:center;justify-content:center;padding:16px;}
 
 /* RESTO CARD NEW */
-.resto-card{background:var(--cardbg);border:1px solid var(--borderc);border-radius:14px;overflow:hidden;margin-bottom:12px;transition:border-color .2s,transform .2s;}
-.resto-card:hover{border-color:var(--orange);transform:translateY(-2px);}
-.resto-img{height:160px;overflow:hidden;cursor:pointer;background:var(--cardbg2);display:flex;align-items:center;justify-content:center;font-size:48px;}
-.resto-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s;}
-.resto-card:hover .resto-img img{transform:scale(1.05);}
-.resto-body{padding:12px;}
-.resto-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
-.resto-btn{padding:7px 14px;border-radius:10px;border:none;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
+.resto-card{background:var(--cardbg);border:1px solid var(--borderc);border-radius:18px;overflow:hidden;margin-bottom:14px;transition:all .25s;box-shadow:0 2px 12px rgba(0,0,0,.1);}
+.resto-card:hover{border-color:var(--orange);transform:translateY(-3px);box-shadow:0 8px 28px rgba(255,107,26,.18);}
+.resto-card:active{transform:scale(.98);}
+.resto-img{height:170px;overflow:hidden;background:var(--cardbg2);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;}
+.resto-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.resto-card:hover .resto-img img{transform:scale(1.06);}
+.resto-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);}
+.resto-img-badge{position:absolute;top:10px;right:10px;background:var(--orange);color:#fff;font-size:9px;font-weight:900;padding:3px 9px;border-radius:20px;letter-spacing:.3px;box-shadow:0 2px 6px rgba(0,0,0,.3);}
+.resto-img-status{position:absolute;top:10px;left:10px;background:rgba(34,197,94,.9);color:#fff;font-size:9px;font-weight:900;padding:3px 9px;border-radius:20px;}
+.resto-body{padding:13px 14px 12px;}
+.resto-body .rname{font-size:15px;font-weight:900;margin-bottom:4px;}
+.resto-body .rtype{font-size:11px;color:var(--mutedc);margin-bottom:0;display:flex;align-items:center;gap:4px;}
+.resto-type-tag{display:inline-block;background:var(--og);color:var(--orange);border:1px solid var(--orange);font-size:9px;font-weight:800;padding:1px 7px;border-radius:8px;margin-bottom:6px;}
+.resto-btns{display:flex;gap:8px;margin-top:11px;align-items:center;}
+.resto-btn{padding:7px 14px;border-radius:12px;border:none;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
 .menu-btn{background:var(--og);color:var(--orange);border:1px solid var(--orange);}
 .save-btn{background:var(--cardbg2);color:var(--mutedc);border:1px solid var(--borderc);}
-.call-btn{background:var(--orange);color:#fff;}
+.save-btn.saved{background:rgba(255,107,26,.1);color:var(--orange);border-color:var(--orange);}
+.call-btn{background:var(--orange);color:#fff;box-shadow:0 3px 10px rgba(255,107,26,.35);flex:1;display:flex;align-items:center;justify-content:center;gap:6px;}
 
 /* CAFE CARD NEW */
-.cafe-card2{background:var(--cardbg);border:1px solid var(--borderc);border-radius:14px;overflow:hidden;margin-bottom:12px;transition:border-color .2s,transform .2s;}
-.cafe-card2:hover{border-color:var(--orange);transform:translateY(-2px);}
-.cafe-gallery{position:relative;height:200px;overflow:hidden;background:var(--cardbg2);}
+.cafe-card2{background:var(--cardbg);border:1px solid var(--borderc);border-radius:18px;overflow:hidden;margin-bottom:14px;transition:all .25s;display:flex;flex-direction:row;align-items:stretch;box-shadow:0 2px 12px rgba(0,0,0,.1);}
+.cafe-card2:hover{border-color:var(--orange);transform:translateY(-3px);box-shadow:0 8px 28px rgba(255,107,26,.18);}
+.cafe-card2:active{transform:scale(.98);}
+.cafe-gallery{position:relative;width:115px;min-width:115px;height:135px;overflow:hidden;background:var(--cardbg2);flex-shrink:0;}
 .gal-slide{display:none;width:100%;height:100%;}
 .gal-slide.active{display:block;}
 .gal-slide img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;transition:transform .3s;}
-.gal-slide img:hover{transform:scale(1.03);}
-.gal-empty{display:flex;align-items:center;justify-content:center;height:100%;font-size:56px;}
-.gal-prev,.gal-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;}
-.gal-prev{right:8px;}.gal-next{left:8px;}
-.gal-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2;}
-.gal-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);transition:background .2s;}
+.gal-slide img:hover{transform:scale(1.06);}
+.gal-empty{display:flex;align-items:center;justify-content:center;height:100%;font-size:46px;}
+.gal-prev,.gal-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;width:24px;height:24px;border-radius:50%;font-size:14px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;}
+.gal-prev{right:3px;}.gal-next{left:3px;}
+.gal-dots{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;}
+.gal-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);transition:background .2s;}
 .gal-dot.active{background:#fff;}
-.cafe-info2{padding:12px;}
+.cafe-gallery-count{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:8px;backdrop-filter:blur(3px);}
+.cafe-info2{padding:12px 14px;flex:1;display:flex;flex-direction:column;justify-content:space-between;min-width:0;}
+.cafe-info2 .rname{font-size:14px;font-weight:900;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cafe-info2 .rtype{font-size:11px;color:var(--mutedc);margin-bottom:3px;display:flex;align-items:center;gap:3px;}
+.cafe-tag{display:inline-block;background:rgba(139,92,246,.12);color:#8b5cf6;border:1px solid rgba(139,92,246,.3);font-size:9px;font-weight:800;padding:2px 8px;border-radius:20px;margin-bottom:6px;}
 
 .vip-ribbon{position:absolute;top:10px;right:10px;background:linear-gradient(135deg,#f59e0b,#b45309);color:#fff;font-size:10px;font-weight:900;padding:4px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(245,158,11,.5);letter-spacing:.5px;z-index:3;}
 .offer-card.is-vip{border-color:#f59e0b;box-shadow:0 0 0 1px #f59e0b22,0 4px 20px rgba(245,158,11,.15);}
 /* OFFER MODAL - bigger image */
 .star-rate{font-size:28px;cursor:pointer;transition:transform .2s;display:inline-block;filter:grayscale(.7);}
 .star-rate:hover,.star-rate.on{filter:none;transform:scale(1.2);}
-.om-img{width:100%;height:260px;object-fit:cover;background:linear-gradient(135deg,#222,#333);display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden;}
+.om-img{width:100%;height:260px;object-fit:cover;background:linear-gradient(135deg,#222,#333);display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden;position:relative;}
 
 /* ══ MERCHANT PORTAL ══════════════════════════════════════════════════ */
 .merch-sub{display:none;padding:14px 14px 100px;}
@@ -432,7 +445,33 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
 .offer-card.vip,.offer-item.vip,[data-vip="true"]{border:2px solid #f59e0b!important;background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(251,191,36,.04))!important;position:relative;}
 .vip-badge{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;z-index:2;box-shadow:0 2px 8px rgba(245,158,11,.4);}
 .offer-card.vip .offer-img,.offer-item.vip img{border:2px solid #f59e0b;}
-</style>
+
+/* ══ PLACE DETAIL MODAL ENHANCEMENTS ══ */
+.place-section{margin-top:16px;padding-top:14px;border-top:1px solid var(--borderc);}
+.place-section-title{font-size:12px;font-weight:800;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.social-links-row{display:flex;gap:8px;flex-wrap:wrap;}
+.social-link-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid transparent;}
+.sl-fb{background:var(--cardbg2);color:var(--text);border-color:var(--borderc);}
+.sl-ig{background:var(--cardbg2);color:var(--text);border-color:var(--borderc);}
+.contact-big-row{display:flex;gap:8px;margin-top:14px;}
+.contact-big-btn{flex:1;padding:12px;border-radius:12px;border:none;font-family:'Cairo',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s;text-decoration:none;}
+.cbig-call{background:var(--orange);color:#fff;}
+.cbig-wa{background:#25D366;color:#fff;}
+/* Slider */
+.pslider-wrap{position:relative;border-radius:12px;background:var(--cardbg2);}
+.pslider-track{display:flex;overflow-x:scroll;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;}
+.pslider-slide{min-width:100%;flex-shrink:0;box-sizing:border-box;scroll-snap-align:start;}
+.pslider-slide img{width:100%;height:200px;object-fit:cover;display:block;border-radius:12px;cursor:zoom-in;}
+.pslider-dots{display:flex;justify-content:center;gap:6px;margin-top:8px;}
+.pslider-dot{width:7px;height:7px;border-radius:50%;background:var(--borderc);cursor:pointer;transition:background .2s,transform .2s;}
+.pslider-dot.active{background:var(--orange);transform:scale(1.3);}.pslider-track::-webkit-scrollbar{display:none;}
+.pslider-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);border:none;color:#fff;font-size:18px;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;padding:0;}
+.pslider-arrow.prev{left:6px;}
+.pslider-arrow.next{right:6px;}
+.menu-imgs-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
+.menu-imgs-row::-webkit-scrollbar{display:none;}
+.menu-img-card{width:150px;height:115px;border-radius:10px;object-fit:cover;flex-shrink:0;cursor:zoom-in;border:1px solid var(--borderc);}
+.menu-btn{display:none!important;}.photo-menu-wrap{display:none!important;}</style>
 <!-- OneSignal Push Notifications -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
@@ -443,6 +482,12 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
     });
   });
 </script>
+
+<style id="ardak-patch">
+/* ── card accent patch ── */
+.resto-card{border-right:3px solid var(--orange)!important;}
+.cafe-card2{border-right:3px solid #8b5cf6!important;}
+</style>
 </head>
 <body>
 
@@ -500,12 +545,9 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
     </div>
     <div id="cityMenu" style="display:none;position:fixed;top:58px;right:10px;background:var(--cardbg);border:1px solid var(--borderc);border-radius:14px;z-index:300;min-width:180px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.4);">
       <div style="padding:10px 14px;font-size:11px;color:var(--mutedc);font-weight:700;border-bottom:1px solid var(--borderc);">📍 اختار منطقتك</div>
-      <div onclick="selectCity('أبوكبير')" class="city-item city-active">أبوكبير ✓</div>
-      <div onclick="selectCity('الزقازيق')" class="city-item city-soon">الزقازيق <span class="menu-soon">قريباً</span></div>
-      <div onclick="selectCity('بلبيس')" class="city-item city-soon">بلبيس <span class="menu-soon">قريباً</span></div>
-      <div onclick="selectCity('منيا القمح')" class="city-item city-soon">منيا القمح <span class="menu-soon">قريباً</span></div>
-      <div onclick="selectCity('ههيا')" class="city-item city-soon">ههيا <span class="menu-soon">قريباً</span></div>
-      <div onclick="selectCity('كفر صقر')" class="city-item city-soon">كفر صقر <span class="menu-soon">قريباً</span></div>
+      <div id="cityMenuItems">
+        <div class="city-item city-active" onclick="selectCity('أبوكبير')">أبوكبير ✓</div>
+      </div>
     </div>
     <button class="hbtn" id="themeBtn" onclick="toggleTheme()" title="تغيير المظهر">
       <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" id="themeIcon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
@@ -1030,43 +1072,23 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
     <button onclick="closeShare()" style="width:100%;background:var(--cardbg2);border:1px solid var(--borderc);color:var(--mutedc);padding:12px;border-radius:12px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">إلغاء</button>
   </div>
 </div>
-<div id="zoomModal" onclick="closeZoom()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:600;align-items:center;justify-content:center;padding:16px;">
-  <button onclick="event.stopPropagation();closeZoom()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;">✕</button>
-  <img id="zoomImg" style="max-width:95vw;max-height:85vh;object-fit:contain;border-radius:10px;" alt="">
-</div>
 
 <!-- CITY SELECTION POPUP -->
 <div id="cityPickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:510;align-items:flex-end;justify-content:center;">
   <div style="background:var(--cardbg);border-radius:20px 20px 0 0;padding:24px 20px 34px;width:100%;max-width:480px;animation:pageIn .3s ease;">
     <div style="width:40px;height:4px;background:var(--borderc);border-radius:4px;margin:0 auto 18px;"></div>
     <div style="text-align:center;margin-bottom:20px;">
-      
       <div style="font-size:18px;font-weight:900;">أنت في أي منطقة؟</div>
       <div style="font-size:12px;color:var(--mutedc);margin-top:4px;">اختار منطقتك عشان نوريلك العروض القريبة منك</div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+    <div id="cityPickGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
       <div onclick="pickCity('أبوكبير')" style="background:var(--og);border:2px solid var(--orange);border-radius:14px;padding:14px;text-align:center;cursor:pointer;">
         <div style="font-size:22px;margin-bottom:4px;">🏙️</div>
         <div style="font-size:13px;font-weight:800;color:var(--orange);">أبوكبير</div>
         <div style="font-size:10px;color:var(--orange);margin-top:2px;">متاح الآن</div>
       </div>
-      <div onclick="pickCity('الزقازيق')" style="background:var(--cardbg2);border:2px solid var(--borderc);border-radius:14px;padding:14px;text-align:center;opacity:.6;">
-        <div style="font-size:22px;margin-bottom:4px;">🏘️</div>
-        <div style="font-size:13px;font-weight:800;">الزقازيق</div>
-        <div style="font-size:10px;color:var(--mutedc);margin-top:2px;">قريباً</div>
-      </div>
-      <div onclick="pickCity('بلبيس')" style="background:var(--cardbg2);border:2px solid var(--borderc);border-radius:14px;padding:14px;text-align:center;opacity:.6;">
-        <div style="font-size:22px;margin-bottom:4px;">🏘️</div>
-        <div style="font-size:13px;font-weight:800;">بلبيس</div>
-        <div style="font-size:10px;color:var(--mutedc);margin-top:2px;">قريباً</div>
-      </div>
-      <div onclick="pickCity('منيا القمح')" style="background:var(--cardbg2);border:2px solid var(--borderc);border-radius:14px;padding:14px;text-align:center;opacity:.6;">
-        <div style="font-size:22px;margin-bottom:4px;">🏘️</div>
-        <div style="font-size:13px;font-weight:800;">منيا القمح</div>
-        <div style="font-size:10px;color:var(--mutedc);margin-top:2px;">قريباً</div>
-      </div>
     </div>
-    <button onclick="pickCity('أبوكبير')" style="width:100%;background:var(--orange);color:#fff;border:none;padding:14px;border-radius:14px;font-family:'Cairo',sans-serif;font-size:15px;font-weight:900;cursor:pointer;">ابدأ في أبوكبير</button>
+    <button id="cityPickStartBtn" onclick="pickCity('أبوكبير')" style="width:100%;background:var(--orange);color:#fff;border:none;padding:14px;border-radius:14px;font-family:'Cairo',sans-serif;font-size:15px;font-weight:900;cursor:pointer;">ابدأ في أبوكبير</button>
   </div>
 </div>
 
@@ -1160,7 +1182,7 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
     let items=[];
     try{
       const [oRes,rRes,dRes,docRes]=await Promise.all([
-        offerIds.length?db.from('offers').select('id,name,shop,image_url,new_price,old_price,category,contact_phone').in('id',offerIds):Promise.resolve({data:[]}),
+        offerIds.length?db.from('offers').select('id,name,shop,image_url,new_price,old_price,category').in('id',offerIds):Promise.resolve({data:[]}),
         placeIds.length?db.from('restaurants').select('id,name,type,image_url,status,address').in('id',placeIds):Promise.resolve({data:[]}),
         allIds.length?db.from('delivery').select('id,name,area,image_url,phone').in('id',allIds):Promise.resolve({data:[]}),
         allIds.length?db.from('doctors').select('id,name,specialty,image_url,phone').in('id',allIds):Promise.resolve({data:[]})
@@ -1341,6 +1363,145 @@ body.light .oimg{background:linear-gradient(135deg,#eee,#ddd);}
 })();
 </script>
 
+<!-- DYNAMIC CITIES: load from Supabase & fix resto card clicks -->
+<script>
+(function(){
+  // ══ تحميل المدن من قاعدة البيانات ══
+  async function loadCitiesFromDB(){
+    if(typeof db==='undefined'){setTimeout(loadCitiesFromDB,600);return;}
+    try{
+      const {data}=await db.from('cities').select('*').order('sort_order',{ascending:true});
+      if(!data||!data.length)return;
+      const currentCity=localStorage.getItem('ardak_city')||'أبوكبير';
+
+      // ── تحديث قائمة الدروب داون ──
+      const menuEl=document.getElementById('cityMenuItems');
+      if(menuEl){
+        menuEl.innerHTML=data.map(c=>{
+          const isActive=c.active&&!c.coming_soon;
+          const isCurrent=c.name===currentCity;
+          if(isActive){
+            return `<div onclick="selectCity('${c.name}')" class="city-item city-active" style="${isCurrent?'color:var(--orange);font-weight:900;':''}">${c.emoji||'🏙️'} ${c.name}${isCurrent?' ✓':''}</div>`;
+          } else if(c.under_expansion){
+            return `<div class="city-item city-soon">${c.emoji||'🏗️'} ${c.name} <span class="menu-soon">تحت التوسع</span></div>`;
+          } else {
+            return `<div class="city-item city-soon">${c.emoji||'🏘️'} ${c.name} <span class="menu-soon">قريباً</span></div>`;
+          }
+        }).join('');
+      }
+
+      // ── تحديث بوب-آب اختيار المدينة ──
+      const gridEl=document.getElementById('cityPickGrid');
+      const startBtn=document.getElementById('cityPickStartBtn');
+      if(gridEl){
+        const activeCities=data.filter(c=>c.active&&!c.coming_soon);
+        const soonCities=data.filter(c=>!c.active||c.coming_soon||c.under_expansion);
+        gridEl.innerHTML=
+          activeCities.map(c=>`<div onclick="pickCity('${c.name}')" style="background:var(--og);border:2px solid var(--orange);border-radius:14px;padding:14px;text-align:center;cursor:pointer;"><div style="font-size:22px;margin-bottom:4px;">${c.emoji||'🏙️'}</div><div style="font-size:13px;font-weight:800;color:var(--orange);">${c.name}</div><div style="font-size:10px;color:var(--orange);margin-top:2px;">متاح الآن</div></div>`).join('')+
+          soonCities.map(c=>`<div style="background:var(--cardbg2);border:2px solid var(--borderc);border-radius:14px;padding:14px;text-align:center;opacity:.6;"><div style="font-size:22px;margin-bottom:4px;">${c.emoji||'🏘️'}</div><div style="font-size:13px;font-weight:800;">${c.name}</div><div style="font-size:10px;color:var(--mutedc);margin-top:2px;">${c.under_expansion?'تحت التوسع':'قريباً'}</div></div>`).join('');
+        if(activeCities.length>0&&startBtn){
+          const first=activeCities[0];
+          startBtn.textContent='ابدأ في '+first.name;
+          startBtn.onclick=function(){pickCity(first.name);};
+        }
+      }
+
+      // ── تحديث نص الموقع في الهيدر ──
+      const locLabel=document.getElementById('locLabel');
+      if(locLabel)locLabel.textContent=currentCity;
+
+    }catch(e){console.warn('cities load error',e);}
+  }
+
+  // ══ إصلاح كروت المطاعم (`.resto-card`) — تأكد من وجود onclick ══
+  function fixRestoCards(){
+    document.querySelectorAll('.resto-card').forEach(function(card){
+      if(card.dataset.clickFixed)return;
+      card.dataset.clickFixed="1";
+      if(card.getAttribute("onclick")){return;}
+      card.style.cursor='pointer';
+      card.addEventListener('click',function(e){
+        if(e.target.closest('button')||e.target.closest('a'))return;
+        // جرب الـ handlers المعروفة بالترتيب
+        const id=parseInt(card.dataset.id||card.dataset.restoId||'0');
+        const fns=['openResto','openPhotoModal','showPhotoModal','openPlace','viewPlace','openRestoModal'];
+        for(const fn of fns){
+          if(typeof window[fn]==='function'){
+            try{window[fn](id,card);return;}catch(ex){}
+          }
+        }
+        // Fallback: اعمل modal بسيط من بيانات الكارت
+        openRestoFallbackModal(card,id);
+      });
+    });
+  }
+
+  // ══ Modal احتياطي للمطاعم لو openResto مش موجودة ══
+  function openRestoFallbackModal(card,id){
+    const name=card.querySelector('.rname')?.textContent||'';
+    const type=card.querySelector('.rtype')?.textContent||'';
+    const img=card.querySelector('.resto-img img')?.src||'';
+    const wa=card.dataset.wa||card.dataset.whatsapp||'';
+    const phone=card.dataset.phone||wa||'';
+    let modal=document.getElementById('_restoFallbackModal');
+    if(!modal){
+      modal=document.createElement('div');
+      modal.id='_restoFallbackModal';
+      modal.style.cssText='display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:450;align-items:flex-end;justify-content:center;';
+      modal.innerHTML=`<div style="background:var(--cardbg,#1a1a1a);border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:88vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.34,1.2,.64,1);">
+        <div id="_rfmImg" style="width:100%;height:220px;background:linear-gradient(135deg,#222,#333);display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden;position:relative;border-radius:24px 24px 0 0;"></div>
+        <div style="padding:18px 18px 30px;">
+          <div id="_rfmName" style="font-size:20px;font-weight:900;margin-bottom:4px;"></div>
+          <div id="_rfmType" style="font-size:12px;color:var(--mutedc,#777);margin-bottom:14px;"></div>
+          <div id="_rfmBtns" style="display:flex;gap:8px;"></div>
+          <button onclick="document.getElementById('_restoFallbackModal').style.display='none'" style="width:100%;margin-top:12px;background:var(--cardbg2,#222);border:1px solid var(--borderc,#333);color:var(--mutedc,#777);padding:12px;border-radius:12px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">إغلاق</button>
+        </div>
+      </div>`;
+      modal.onclick=function(e){if(e.target===modal)modal.style.display='none';};
+      document.body.appendChild(modal);
+    }
+    const imgEl=document.getElementById('_rfmImg');
+    imgEl.innerHTML=img?`<img src="${img}" style="width:100%;height:100%;object-fit:cover;" alt="${name}">`:'🍽️';
+    document.getElementById('_rfmName').textContent=name;
+    document.getElementById('_rfmType').textContent=type;
+    const btns=document.getElementById('_rfmBtns');
+    btns.innerHTML='';
+    if(phone){
+      const wn=phone.replace(/^0/,'');
+      btns.innerHTML+=`<a href="https://wa.me/2${wn}" target="_blank" style="flex:1;background:#25D366;color:#fff;border:none;padding:12px;border-radius:12px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:800;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">💬 واتساب</a>`;
+      btns.innerHTML+=`<a href="tel:0${wn}" style="flex:1;background:var(--orange,#ff6b1a);color:#fff;border:none;padding:12px;border-radius:12px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:800;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">📞 اتصال</a>`;
+    }
+    modal.style.display='flex';
+  }
+
+  // مراقبة الـ DOM لتطبيق الإصلاح على الكروت الجديدة
+  function watchRestoCards(){
+    fixRestoCards();
+    const observer=new MutationObserver(function(){fixRestoCards();});
+    const lists=['restosList','cafesList','sec-resto','sec-cafes'];
+    lists.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)observer.observe(el,{childList:true,subtree:true});
+    });
+    observer.observe(document.body,{childList:true,subtree:false});
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){
+      loadCitiesFromDB();
+      setTimeout(watchRestoCards,800);
+    });
+  } else {
+    loadCitiesFromDB();
+    setTimeout(watchRestoCards,800);
+  }
+
+  // expose globally
+  window.loadCitiesFromDB=loadCitiesFromDB;
+  window.fixRestoCards=fixRestoCards;
+})();
+</script>
+
 <!-- BANNER SLIDER JS -->
 <script>
 (function(){
@@ -1418,6 +1579,16 @@ const _store = {};
 let _storeId = 0;
 function _s(obj) { const id = ++_storeId; _store[id] = obj; return id; }
 function _g(id) { return _store[id]; }
+// global map by DB id for safe card click
+window._rdMap = {};
+async function openRestoById(dbId){
+  var r=window._rdMap[dbId]||window._rdMap[String(dbId)]||window._rdMap[Number(dbId)];
+  if(r){openRestoModal(r);return;}
+  try{
+    var res=await db.from('restaurants').select('*').eq('id',Number(dbId)).maybeSingle();
+    if(res.data){window._rdMap[res.data.id]=res.data;openRestoModal(res.data);}
+  }catch(e){}
+}
 const SURL='https://kigzfvmilkakbffsdxel.supabase.co';
 const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZ3pmdm1pbGtha2JmZnNkeGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2OTMxNTksImV4cCI6MjA5MTI2OTE1OX0.h4q12LC0ZO_t9qhQXMlQSvbxBDHcL3yAmJDJ1lVmdCI';
 const {createClient}=supabase;
@@ -2134,19 +2305,20 @@ async function loadRestos(){
     el.innerHTML=data.map(function(r){
       const pid='r_'+r.id;
       const isSaved=saved.includes(pid);
-      const rid=_s(r);
-      return '<div class="resto-card">'
-        +'<div class="resto-img" onclick="openRestoModal(_g('+rid+'))">'
-          +(r.image_url?'<img src="'+r.image_url+'" alt="">':'🍽️')
+      window._rdMap[r.id]=r;
+      return '<div class="resto-card" onclick="openRestoById('+r.id+')" style="cursor:pointer;">'
+        +'<div class="resto-img">'
+          +(r.image_url?'<img src="'+r.image_url+'" alt="" loading="lazy">':'<span>🍽️</span>')
+          +'<div class="resto-img-overlay"></div>'
+          +(r.type?'<div class="resto-img-badge">'+r.type+'</div>':'')
+          +(r.status==='open'?'<div class="resto-img-status">✓ مفتوح</div>':'')
         +'</div>'
         +'<div class="resto-body">'
           +'<div class="rname">'+r.name+'</div>'
           +(r.address?'<div class="rtype">📍 '+r.address+'</div>':'')
-          +(r.phone?'<div class="rtype">📞 '+r.phone+'</div>':'')
           +'<div class="resto-btns">'
-            +(r.menu?'<button class="resto-btn menu-btn" data-rid="'+rid+'" onclick="openMenu_r(this)">📋 المنيو</button>':'')
-            +'<button class="resto-btn save-btn'+(isSaved?' saved':'')+' data-pid="'+pid+'" onclick="toggleSavePlace(this)" style="padding:6px 10px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="'+(isSaved?'#FF6B1A':'none')+'" stroke="'+(isSaved?'#FF6B1A':'currentColor')+'" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>'
-            +(r.phone?'<button class="resto-btn call-btn" data-tel="tel:'+r.phone+'" onclick="window.location=this.dataset.tel">📞</button>':'')
+            +'<button class="resto-btn save-btn'+(isSaved?' saved':'')+' data-pid="'+pid+'" onclick="event.stopPropagation();toggleSavePlace(this)" style="padding:7px 10px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="'+(isSaved?'#FF6B1A':'none')+'" stroke="'+(isSaved?'#FF6B1A':'currentColor')+'" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>'
+            +(r.phone?'<button class="resto-btn call-btn" data-tel="tel:'+r.phone+'" onclick="event.stopPropagation();window.location=this.dataset.tel"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.13 12.69a19.79 19.79 0 01-3.07-8.68A2 2 0 012 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg> اتصال</button>':'')
           +'</div>'
         +'</div>'
         +'</div>';
@@ -2166,32 +2338,36 @@ async function loadCafes(){
     el.innerHTML=data.map(function(r){
       const pid='c_'+r.id;
       const isSaved=saved.includes(pid);
-      const rid=_s(r);
+      window._rdMap[r.id]=r;
       let imgs=[];
       try{imgs=r.images?JSON.parse(r.images):[];}catch(e){if(r.images)imgs=[r.images];}
       if(r.image_url&&!imgs.includes(r.image_url)) imgs.unshift(r.image_url);
       const hasImgs=imgs.length>0;
       const galleryId='gal_'+r.id;
-      return '<div class="cafe-card2">'
+      return '<div class="cafe-card2" onclick="openRestoById('+r.id+')" style="cursor:pointer;">'
         +'<div class="cafe-gallery" id="'+galleryId+'">'
           +(hasImgs
-            ? imgs.map((img,i)=>'<div class="gal-slide'+(i===0?' active':'')+'" data-gid="'+galleryId+'" data-idx="'+i+'"><img src="'+img+'" alt="" data-src="'+img+'" onclick="openZoom(this.dataset.src)"></div>').join('')
+            ? imgs.map((img,i)=>'<div class="gal-slide'+(i===0?' active':'')+'" data-gid="'+galleryId+'" data-idx="'+i+'"><img src="'+img+'" alt="" data-src="'+img+'" loading="lazy" data-zoom-src="__img__"></div>').join('')
             : '<div class="gal-slide active"><div class="gal-empty">☕</div></div>'
           )
           +(imgs.length>1
-            ? '<button class="gal-prev" data-gid="'+galleryId+'" onclick="galSlide(this.dataset.gid,-1)">‹</button>'
-              +'<button class="gal-next" data-gid="'+galleryId+'" onclick="galSlide(this.dataset.gid,1)">›</button>'
+            ? '<button class="gal-prev" data-gid="'+galleryId+'" onclick="event.stopPropagation();galSlide(this.dataset.gid,-1)">‹</button>'
+              +'<button class="gal-next" data-gid="'+galleryId+'" onclick="event.stopPropagation();galSlide(this.dataset.gid,1)">›</button>'
               +'<div class="gal-dots">'+imgs.map((_,i)=>'<span class="gal-dot'+(i===0?' active':'')+'" data-gid="'+galleryId+'" data-dot="'+i+'"></span>').join('')+'</div>'
+              +'<div class="cafe-gallery-count">'+imgs.length+' 📷</div>'
             : ''
           )
         +'</div>'
         +'<div class="cafe-info2">'
-          +'<div class="rname">'+r.name+'</div>'
-          +(r.address?'<div class="rtype">📍 '+r.address+'</div>':'')
-          +(r.phone?'<div class="rtype">📞 '+r.phone+'</div>':'')
-          +'<div class="resto-btns">'
-            +'<button class="resto-btn save-btn'+(isSaved?' saved':'')+' data-pid="'+pid+'" onclick="toggleSavePlace(this)" style="padding:6px 10px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="'+(isSaved?'#FF6B1A':'none')+'" stroke="'+(isSaved?'#FF6B1A':'currentColor')+'" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>'
-            +(r.phone?'<button class="resto-btn call-btn" data-tel="tel:'+r.phone+'" onclick="window.location=this.dataset.tel">📞</button>':'')
+          +'<div>'
+            +'<div class="cafe-tag">☕ كافيه</div>'
+            +'<div class="rname">'+r.name+'</div>'
+            +(r.address?'<div class="rtype">📍 '+r.address+'</div>':'')
+            +(r.phone?'<div class="rtype">📞 '+r.phone+'</div>':'')
+          +'</div>'
+          +'<div class="resto-btns" style="margin-top:10px;">'
+            +'<button class="resto-btn save-btn'+(isSaved?' saved':'')+' data-pid="'+pid+'" onclick="event.stopPropagation();toggleSavePlace(this)" style="padding:7px 10px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="'+(isSaved?'#FF6B1A':'none')+'" stroke="'+(isSaved?'#FF6B1A':'currentColor')+'" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>'
+            +(r.phone?'<button class="resto-btn call-btn" data-tel="tel:'+r.phone+'" onclick="event.stopPropagation();window.location=this.dataset.tel" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.13 12.69a19.79 19.79 0 01-3.07-8.68A2 2 0 012 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg> اتصال</button>':'')
           +'</div>'
         +'</div>'
         +'</div>';
@@ -2213,22 +2389,107 @@ function openRestoModal(r){
   const pid=(_isCafe(r)?'c_':'r_')+r.id;
   const saved=JSON.parse(localStorage.getItem('ardak_saved_places')||'[]');
   const isSaved=saved.includes(pid);
-  const phoneLink=r.phone?'<button class="om-act" onclick="window.location=this.dataset.tel" data-tel="tel:'+r.phone+'">📞 اتصال</button>':'';
-  document.getElementById('offerModalInner').innerHTML=
-    '<div class="om-img">'+(r.image_url?'<img src="'+r.image_url+'" alt="" style="width:100%;height:100%;object-fit:cover;">':r.emoji||'🍽️')+'</div>'
-    +'<div class="om-body">'
-      +'<span class="otag">'+(r.type||'مطعم')+'</span>'
-      +'<div class="om-name">'+r.name+'</div>'
-      +(r.address?'<div class="om-shop">📍 '+r.address+'</div>':'')
-      +(r.phone?'<div class="om-shop">📞 '+r.phone+'</div>':'')
-      +'<div class="om-acts">'
-        +'<button class="om-act'+(isSaved?' saved':'')+' mod-save" style="display:flex;align-items:center;gap:5px;" data-pid="'+pid+'" onclick="toggleSavePlaceById(this)">'+(isSaved?'<svg viewBox="0 0 24 24" width="14" height="14" fill="#FF6B1A" stroke="#FF6B1A" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> محفوظ':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> حفظ')+'</button>'
-        +phoneLink
-        +'<button class="om-act" onclick="openShare()">↗️ مشاركة</button>'
-      +'</div>'
-      +'<button class="om-close" onclick="closeOfferModal()">إغلاق</button>'
-    +'</div>';
+  const isC=_isCafe(r);
+  const emoji=r.emoji||(isC?'\u2615':'\uD83C\uDF7D\uFE0F');
+
+  // ══ جمع صور المكان ══
+  let placeImgs=[];
+  try{placeImgs=r.images?(Array.isArray(r.images)?r.images:JSON.parse(r.images)):[]}catch(e){if(r.images&&r.images.trim())placeImgs=r.images.split(',').map(s=>s.trim()).filter(Boolean);}
+  if(r.image_url&&!placeImgs.includes(r.image_url))placeImgs.unshift(r.image_url);
+
+  // ══ صور المنيو ══
+  let menuImgs=[];
+  if(r.menu&&r.menu.includes('http')){menuImgs=r.menu.split(',').map(s=>s.trim()).filter(s=>s.startsWith('http'));}
+  const menuText=(!menuImgs.length&&r.menu)?r.menu:'';
+
+  // ══ واتساب ══
+  const rawWa=(r.whatsapp||r.phone||'').replace(/\D/g,'');
+  let waNum=rawWa;
+  if(waNum.startsWith('0'))waNum='2'+waNum;
+  if(!waNum.startsWith('20'))waNum='20'+waNum;
+  const waLink=waNum?'https://wa.me/'+waNum:'';
+
+  let h='';
+
+  // ══ صورة الغلاف ══
+  h+='<div class="om-img">';
+  if(r.image_url)h+='<img src="'+r.image_url+'" alt="" style="width:100%;height:100%;object-fit:cover;">';
+  else h+='<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:72px;">'+emoji+'</div>';
+  h+='</div>';
+
+  h+='<div class="om-body">';
+
+  // الوسم + حالة المكان
+  h+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">';
+  h+='<span class="otag">'+(r.type||(isC?'\u0643\u0627\u0641\u064a\u0647':'\u0645\u0637\u0639\u0645'))+'</span>';
+  if(r.status==='open')h+='<span style="font-size:10px;font-weight:700;background:rgba(34,197,94,.15);color:#22c55e;padding:2px 9px;border-radius:8px;">\u2713 \u0645\u0641\u062a\u0648\u062d</span>';
+  h+='</div>';
+  h+='<div class="om-name">'+r.name+'</div>';
+  if(r.address)h+='<div class="om-shop">\uD83D\uDCCD '+r.address+'</div>';
+
+  // ══ أزرار التواصل الكبيرة ══
+  if(r.phone||waLink){
+    h+='<div class="contact-big-row">';
+    if(r.phone)h+='<button class="contact-big-btn cbig-call" onclick="window.location=\'tel:'+r.phone+'\'">'
+      +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.13 12.69a19.79 19.79 0 01-3.07-8.68A2 2 0 012 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg> \u0627\u062a\u0635\u0627\u0644</button>';
+    if(waLink)h+='<a class="contact-big-btn cbig-wa" href="'+waLink+'" target="_blank">'
+      +'<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> \u0648\u0627\u062a\u0633\u0627\u0628</a>';
+    h+='</div>';
+  }
+
+  // ══ السوشيال ميديا ══
+  const socials=[];
+  if(r.facebook)socials.push('<a class="social-link-btn sl-fb" href="'+r.facebook+'" target="_blank">'
+    +'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg> \u0641\u064a\u0633\u0628\u0648\u0643</a>');
+  if(r.instagram)socials.push('<a class="social-link-btn sl-ig" href="'+r.instagram+'" target="_blank">'
+    +'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> \u0627\u0646\u0633\u062a\u062c\u0631\u0627\u0645</a>');
+  if(socials.length)h+='<div class="place-section"><div class="place-section-title">\uD83D\uDCF1 \u0627\u0644\u0633\u0648\u0634\u064a\u0627\u0644 \u0645\u064a\u062f\u064a\u0627</div><div class="social-links-row">'+socials.join('')+'</div></div>';
+
+  // ══ صور المكان — Slider ══
+  if(placeImgs.length>0){
+    const sid='psl_'+r.id;
+    h+='<div class="place-section"><div class="place-section-title">\uD83D\uDCF8 \u0635\u0648\u0631 \u0627\u0644\u0645\u0643\u0627\u0646</div>';
+    h+='<div class="pslider-wrap" dir="ltr" id="'+sid+'_wrap">';
+    if(placeImgs.length>1){h+='<button class="pslider-arrow prev" onclick="pslide(\''+sid+'\',-1)">\u2039</button>';}
+    h+='<div class="pslider-track" id="'+sid+'_track">';
+    placeImgs.forEach((img,i)=>{h+='<div class="pslider-slide"><img src="'+img+'" alt="" loading="eager" onclick="openZoom(\''+img+'\')"></div>';});
+    h+='</div>';
+    if(placeImgs.length>1){h+='<button class="pslider-arrow next" onclick="pslide(\''+sid+'\',1)">\u203a</button>';}
+    h+='</div>';
+    if(placeImgs.length>1){
+      h+='<div class="pslider-dots" id="'+sid+'_dots">';
+      placeImgs.forEach((_,i)=>{h+='<div class="pslider-dot'+(i===0?' active':'')+'" onclick="pslideGo(\''+sid+'\','+i+')"></div>';});
+      h+='</div>';
+    }
+    h+='</div>';
+    // init touch swipe
+  }
+
+  // ══ المنيو ══
+  if(menuImgs.length){
+    h+='<div class="place-section"><div class="place-section-title">\uD83D\uDCCB \u0627\u0644\u0645\u0646\u064a\u0648</div>';
+    h+='<div class="menu-imgs-row">';
+    menuImgs.forEach(img=>{h+='<img class="menu-img-card" src="'+img+'" alt="\u0645\u0646\u064a\u0648" onclick="openZoom(\''+img+'\')" loading="lazy">';});
+    h+='</div></div>';
+  }else if(menuText){
+    h+='<div class="place-section"><div class="place-section-title">\uD83D\uDCCB \u0627\u0644\u0645\u0646\u064a\u0648</div>';
+    h+='<div style="white-space:pre-wrap;font-size:13px;line-height:2;color:var(--text);background:var(--cardbg2);border-radius:12px;padding:14px;border:1px solid var(--borderc);">'+menuText+'</div></div>';
+  }
+
+  // ══ حفظ + مشاركة ══
+  h+='<div class="om-acts" style="margin-top:16px;">';
+  h+='<button class="om-act'+(isSaved?' saved':'')+' mod-save" style="display:flex;align-items:center;gap:5px;" data-pid="'+pid+'" onclick="toggleSavePlaceById(this)">'
+    +(isSaved?'<svg viewBox="0 0 24 24" width="14" height="14" fill="#FF6B1A" stroke="#FF6B1A" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> \u0645\u062d\u0641\u0648\u0638'
+             :'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg> \u062d\u0641\u0638')+'</button>';
+  h+='<button class="om-act" onclick="openShare()">\u21971\uFE0F\u20E3 \u0645\u0634\u0627\u0631\u0643\u0629</button>';
+  h+='</div>';
+  h+='<button class="om-close" onclick="closeOfferModal()">\u0625\u063a\u0644\u0627\u0642</button>';
+  h+='</div>';
+
+  document.getElementById('offerModalInner').innerHTML=h;
   document.getElementById('offerModal').classList.add('show');
+  // init sliders after modal is visible
+  try{if(placeImgs.length>0){const sid='psl_'+r.id;if(typeof initPslider==='function')initPslider(sid,placeImgs.length);}}catch(e){}
 }
 
 function toggleSavePlaceById(btn){
@@ -2766,8 +3027,8 @@ function toggleCityMenu(e){
   }
 }
 function selectCity(name){
-  if(name!=='أبوكبير'){showToast('قريباً — ابقى معانا! 🔥');document.getElementById('cityMenu').style.display='none';return;}
   document.getElementById('locLabel').textContent=name;
+  localStorage.setItem('ardak_city',name);
   document.getElementById('cityMenu').style.display='none';
 }
 
@@ -2912,7 +3173,7 @@ function pickCity(name){
   if(lbl) lbl.textContent=name;
   const m=document.getElementById('cityPickModal');
   if(m) m.style.display='none';
-  if(name!=='أبوكبير') showToast('قريباً في '+name+' — ابقى معانا!');
+  // city selected
 }
 function checkCityPicker(){
   const saved=localStorage.getItem('ardak_city');
@@ -2991,5 +3252,33 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
+<script>
+/* ══ Photo Slider Helpers ══ */
+const _pslState={};
+function initPslider(sid,total){
+  _pslState[sid]={cur:0,total};
+  const track=document.getElementById(sid+'_track');
+  if(!track)return;
+  track.addEventListener('scroll',()=>{
+    const idx=Math.round(track.scrollLeft/Math.max(track.offsetWidth,1));
+    const safe=Math.max(0,Math.min(idx,total-1));
+    if(_pslState[sid])_pslState[sid].cur=safe;
+    const dots=document.getElementById(sid+'_dots');
+    if(dots)[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===safe));
+  },{passive:true});
+}
+function pslide(sid,dir){
+  const s=_pslState[sid]; if(!s)return;
+  s.cur=(s.cur+dir+s.total)%s.total;
+  pslideGo(sid,s.cur);
+}
+function pslideGo(sid,idx){
+  const s=_pslState[sid]; if(s)s.cur=idx;
+  const track=document.getElementById(sid+'_track');
+  if(track){const w=track.offsetWidth||track.parentElement&&track.parentElement.offsetWidth||0;track.scrollTo({left:idx*w,behavior:'smooth'});}
+  const dots=document.getElementById(sid+'_dots');
+  if(dots){[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));}
+}
+<\/script>
 </body>
 </html>
